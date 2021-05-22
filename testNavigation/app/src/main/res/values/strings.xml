@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">testNavigation</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_home_fragment">home fragment</string>
+    <string name="hello_nav_host_fragment">nav host fragment</string>
+    <string name="title_register">Register</string>
+    <string name="title_print">Print</string>
+    <string name="title_setting">Setting</string>
+    <string name="title_dev">Develop</string>
+</resources>

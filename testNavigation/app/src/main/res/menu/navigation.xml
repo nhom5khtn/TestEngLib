@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_register"
+        android:icon="@drawable/icon_register"
+        android:title="@string/title_register" />
+
+    <item
+        android:id="@+id/navigation_print"
+        android:icon="@drawable/icon_print"
+        android:title="@string/title_print" />
+
+    <item
+        android:id="@+id/navigation_setting"
+        android:icon="@drawable/icon_setting"
+        android:title="@string/title_setting" />
+
+    <item
+        android:id="@+id/navigation_develop"
+        android:icon="@drawable/icon_dev"
+        android:title="@string/title_dev" />
+</menu>
