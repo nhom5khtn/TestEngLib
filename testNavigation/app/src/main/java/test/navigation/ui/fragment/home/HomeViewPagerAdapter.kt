@@ -12,12 +12,11 @@ import test.navigation.ui.fragment.register.RegisterFragment
 class HomeViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
     private val fragmentList = listOf(RegisterFragment(), PrintFragment(), SettingFragment(), DevelopFragment())
     companion object {
-        const val REGISTER_PAGE = 0
-        const val PRINT_PAGE = 1
-        const val SETTING_PAGE = 2
-        const val DEVELOP_PAGE = 3
-
-        const val MAX_PAGES = 4
+        const val REGISTER_PAGE     = 0
+        const val PRINT_PAGE        = 1
+        const val SETTING_PAGE      = 2
+        const val DEVELOP_PAGE      = 3
+        const val MAX_PAGES         = 4
     }
 
     override fun getItem(position: Int): Fragment {

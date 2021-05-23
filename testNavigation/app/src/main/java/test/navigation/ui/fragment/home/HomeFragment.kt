@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.fragment_home.*
 import test.navigation.R
-import test.navigation.ui.activity.MainActivity
+import test.navigation.ui.activity.main.MainActivity
 
 class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
