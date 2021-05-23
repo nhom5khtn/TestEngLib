@@ -10,8 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import test.navigation.R
 import test.navigation.databinding.FragmentPrintBinding
-import test.navigation.dict.Userpool
-import test.navigation.dict.Word
+import test.navigation.store.Userpool
+import test.navigation.model.dict.Word
 
 class PrintFragment : Fragment() {
     private lateinit var printAdapter: PrintAdapter

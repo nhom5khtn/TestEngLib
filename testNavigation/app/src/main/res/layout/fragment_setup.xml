@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="configurarion"
+            type="test.navigation.model.configuration.Configuration" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvWaitTime"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="96dp"
+            android:gravity="center"
+            android:text="WaitTime For Display Question"
+            android:textAlignment="gravity"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/tvSetup"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sWaitTime"
+            android:layout_width="350dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="30dp"
+            android:valueFrom="0"
+            android:valueTo="50"
+            android:stepSize="10"
+            android:value="@{configurarion.waitTimeQuest.value}"
+            app:layout_constraintEnd_toEndOf="@+id/tvWaitTime"
+            app:layout_constraintStart_toStartOf="@+id/tvWaitTime"
+            app:layout_constraintTop_toBottomOf="@+id/tvWaitTime" />
+
+        <TextView
+            android:id="@+id/tvNumQuests"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="70dp"
+            android:gravity="center"
+            android:text="Number of Questions"
+            android:textAlignment="gravity"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/sWaitTime"
+            app:layout_constraintStart_toStartOf="@+id/sWaitTime"
+            app:layout_constraintTop_toBottomOf="@+id/sWaitTime" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sNumQuest"
+            android:layout_width="350dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="30dp"
+            android:valueFrom="0"
+            android:valueTo="30"
+            android:stepSize="1"
+            android:value="@{configurarion.numQuest.value}"
+            app:layout_constraintEnd_toEndOf="@+id/tvNumQuests"
+            app:layout_constraintStart_toStartOf="@+id/tvNumQuests"
+            app:layout_constraintTop_toBottomOf="@+id/tvNumQuests" />
+
+
+        <Button
+            android:id="@+id/btnSaveSetup"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="64dp"
+            android:text="Save"
+            app:layout_constraintEnd_toEndOf="@+id/sNumQuest"
+            app:layout_constraintStart_toStartOf="@+id/sNumQuest"
+            app:layout_constraintTop_toBottomOf="@+id/sNumQuest" />
+
+        <Button
+            android:id="@+id/btnDefault"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="44dp"
+            android:text="Default"
+            app:layout_constraintEnd_toEndOf="@+id/btnSaveSetup"
+            app:layout_constraintStart_toStartOf="@+id/btnSaveSetup"
+            app:layout_constraintTop_toBottomOf="@+id/btnSaveSetup" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

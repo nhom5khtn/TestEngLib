@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import test.navigation.R
-import test.navigation.dict.Word
+import test.navigation.model.dict.Word
 
 class PrintAdapter :
     ListAdapter<Word, PrintAdapter.ViewHolder>(PrintDiffUtilCallback()) {

@@ -1,4 +1,4 @@
-package test.navigation.dict
+package test.navigation.model.dict
 
 
 data class Word (

@@ -11,8 +11,8 @@
         android:title="@string/title_print" />
 
     <item
-        android:id="@+id/navigation_setting"
-        android:icon="@drawable/icon_setting"
+        android:id="@+id/navigation_setup"
+        android:icon="@drawable/icon_setup"
         android:title="@string/title_setting" />
 
     <item

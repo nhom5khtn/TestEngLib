@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import test.navigation.dict.Word
+import test.navigation.model.dict.Word
 import test.navigation.networking.restDictionaryAPI.RestClient
 
 class RegisterViewModel : ViewModel() {

@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import test.navigation.R
 import test.navigation.databinding.FragmentRegisterBinding
-import test.navigation.dict.Userpool
+import test.navigation.store.Userpool
 
 class RegisterFragment : Fragment() {
     lateinit var binding: FragmentRegisterBinding

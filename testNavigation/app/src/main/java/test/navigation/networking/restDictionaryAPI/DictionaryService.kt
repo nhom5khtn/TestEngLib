@@ -1,6 +1,6 @@
 package test.navigation.networking.restDictionaryAPI
 
-import test.navigation.dict.Word
+import test.navigation.model.dict.Word
 import retrofit2.http.GET
 import retrofit2.http.Path
 

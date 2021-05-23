@@ -41,8 +41,8 @@ class HomeFragment : Fragment() {
                     home_view_pager.currentItem = HomeViewPagerAdapter.PRINT_PAGE
                     true
                 }
-                R.id.navigation_setting -> {
-                    home_view_pager.currentItem = HomeViewPagerAdapter.SETTING_PAGE
+                R.id.navigation_setup -> {
+                    home_view_pager.currentItem = HomeViewPagerAdapter.SETUP_PAGE
                     true
                 }
                 R.id.navigation_develop -> {
@@ -75,21 +75,17 @@ class HomeFragment : Fragment() {
                         bottom_navigation_view.menu.findItem(R.id.navigation_print).isChecked = true
                         (activity as MainActivity).supportActionBar?.setTitle(R.string.title_print)
                     }
-                    HomeViewPagerAdapter.SETTING_PAGE -> {
-                        bottom_navigation_view.menu.findItem(R.id.navigation_print).isChecked = true
+                    HomeViewPagerAdapter.SETUP_PAGE -> {
+                        bottom_navigation_view.menu.findItem(R.id.navigation_setup).isChecked = true
                         (activity as MainActivity).supportActionBar?.setTitle(R.string.title_setting)
                     }
                     HomeViewPagerAdapter.DEVELOP_PAGE -> {
-                        bottom_navigation_view.menu.findItem(R.id.navigation_print).isChecked = true
+                        bottom_navigation_view.menu.findItem(R.id.navigation_develop).isChecked = true
                         (activity as MainActivity).supportActionBar?.setTitle(R.string.title_dev)
                     }
 
                 }
             }
         })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }
