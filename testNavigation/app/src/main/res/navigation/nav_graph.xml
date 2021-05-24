@@ -28,14 +28,8 @@
             android:id="@+id/action_welcomeFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            android:id="@+id/action_welcomeFragment_to_questionFragment"
-            app:destination="@id/questionFragment" />
+            android:id="@+id/action_welcomeFragment_to_prepareQuestionFragment"
+            app:destination="@id/prepareQuestionFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -64,17 +58,11 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            android:id="@+id/action_loginFragment_to_questionFragment"
-            app:destination="@id/questionFragment" />
-        <action
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_prepareQuestionFragment"
+            app:destination="@id/prepareQuestionFragment" />
     </fragment>
     <fragment
         android:id="@+id/questionFragment"
@@ -84,6 +72,9 @@
         <action
             android:id="@+id/action_questionFragment_to_resultFragment"
             app:destination="@id/resultFragment" />
+        <action
+            android:id="@+id/action_questionFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -96,6 +87,17 @@
         android:label="ResultFragment" >
         <action
             android:id="@+id/action_resultFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/prepareQuestionFragment"
+        android:name="test.navigation.ui.fragment.quiz.question.PrepareQuestionFragment"
+        android:label="PrepareQuestionFragment" >
+        <action
+            android:id="@+id/action_prepareQuestionFragment_to_questionFragment"
+            app:destination="@id/questionFragment" />
+        <action
+            android:id="@+id/action_prepareQuestionFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

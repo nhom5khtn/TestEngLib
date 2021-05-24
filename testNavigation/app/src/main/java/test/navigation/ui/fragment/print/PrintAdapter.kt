@@ -12,31 +12,6 @@ import test.navigation.model.dict.Word
 
 class PrintAdapter :
     ListAdapter<Word, PrintAdapter.ViewHolder>(PrintDiffUtilCallback()) {
-    var listener: MovieItemListener? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.word_view, parent, false)
-        return ViewHolder(view!!)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item, listener!!)
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvWord: TextView? = itemView.findViewById(R.id.tv_word)
-        private val tvMeaning: TextView? = itemView.findViewById(R.id.tv_meaning)
-
-        fun bind(word: Word, listener: MovieItemListener) {
-            itemView.setOnClickListener {
-                listener.onItemClicked(word)
-            }
-            tvWord!!.text = word.word
-            tvMeaning!!.text = word.meanings.toString()
-        }
-    }
     class PrintDiffUtilCallback : DiffUtil.ItemCallback<Word>() {
         override fun areItemsTheSame(oldItem: Word, newItem: Word): Boolean {
             return oldItem.word == newItem.word
@@ -46,7 +21,39 @@ class PrintAdapter :
             return oldItem == newItem
         }
     }
-    interface MovieItemListener {
+    var listener: WordItemListener? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent) as ViewHolder
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = getItem(position)
+        holder.bind(item, listener!!)
+    }
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvWord: TextView? = itemView.findViewById(R.id.tv_word)
+        private val tvMeaning: TextView? = itemView.findViewById(R.id.tv_meaning)
+
+        companion object {
+            // khởi tạo layout cho item_view
+            fun from(parent: ViewGroup) : RecyclerView.ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val view = layoutInflater.inflate(R.layout.word_view, parent, false)
+                return ViewHolder(view)
+            }
+        }
+        fun bind(word: Word, listener: WordItemListener) {
+            itemView.setOnClickListener {
+                listener.onItemClicked(word)
+            }
+            tvWord!!.text = word.word
+            tvMeaning!!.text = word.meanings.toString()
+        }
+    }
+
+    interface WordItemListener {
         fun onItemClicked(word: Word)
     }
 }

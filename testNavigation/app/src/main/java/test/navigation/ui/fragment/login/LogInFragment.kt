@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_login.*
 import test.navigation.R
+import test.navigation.store.Account
 
 class LoginFragment : Fragment() {
 
@@ -45,11 +47,11 @@ class LoginFragment : Fragment() {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                     task->
                 if(task.isSuccessful){
-                    findNavController().navigate(R.id.action_loginFragment_to_questionFragment)
+                    Account.USER_ID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                    findNavController().navigate(R.id.action_loginFragment_to_prepareQuestionFragment)
                 }
                 else{
                     Toast.makeText(activity,"Error Message: "+ task.exception!!.message.toString(), Toast.LENGTH_LONG).show()
-
                 }
             }
         }

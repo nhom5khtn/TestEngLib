@@ -1,15 +1,16 @@
 package test.navigation.ui.fragment.welcome
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import test.navigation.R
+import test.navigation.store.Account
 
 class WelcomeFragment : Fragment() {
 
@@ -37,7 +38,9 @@ class WelcomeFragment : Fragment() {
         super.onStart()
         firebaseUser = FirebaseAuth.getInstance().currentUser
         if(firebaseUser != null){
-            findNavController().navigate(R.id.action_welcomeFragment_to_questionFragment)
+            Account.USER_ID = firebaseUser?.uid.toString()
+            findNavController().navigate(R.id.action_welcomeFragment_to_prepareQuestionFragment)
         }
     }
+
 }

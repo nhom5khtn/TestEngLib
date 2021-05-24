@@ -1,22 +1,25 @@
 package test.navigation.ui.fragment.quiz.question
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.core.content.edit
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_question.*
 import test.navigation.R
+import test.navigation.databinding.FragmentQuestionBinding
 import test.navigation.model.question.Question
 import test.navigation.store.Account
-import test.navigation.store.Userpool
 
 class QuestionFragment : Fragment() {
 
@@ -24,21 +27,54 @@ class QuestionFragment : Fragment() {
     private var mQuestionsList: ArrayList<Question>? = null
     private var mCorrectAnswers: Int = 0
     private var mSelectedOptionPosition: Int = 0
-
+    lateinit var questionViewModel: QuestionViewModel
+    lateinit var binding: FragmentQuestionBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_question, container, false)
+    ): View {
+        setupViewModel(inflater, container)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mQuestionsList = Account.getQuestions()
-        setQuestion()
+        //===================================================================================================
+        val saveConfig = activity?.getSharedPreferences("CONFIGURATION", Context.MODE_PRIVATE)
 
+        saveConfig?.edit {
+            putString("DEFAULT_WAIT_TIME","10.0F")
+            putString("DEFAULT_NUM_QUEST","30.0F")
+        }
+
+        val savedWaitTime = saveConfig?.getString("WAIT_TIME","10.0F")
+        val savedNumQuest = saveConfig?.getString("NUM_QUEST","30.0F")
+        Log.e(">>>>> savedWaitTime","$savedWaitTime")
+        Log.e(">>>>> savedNumQuest","$savedNumQuest")
+        if (savedWaitTime != null) {
+            var WaitTime = saveConfig.getString("DEFAULT_WAIT_TIME","10.0F")
+            Log.e(">>>>> savedWaitTime","$WaitTime")
+        }
+        if (savedNumQuest != null) {
+            var NumQuest = saveConfig.getString("DEFAULT_NUM_QUEST","30.0F")
+            Log.e(">>>>> savedNumQuest","$NumQuest")
+        }
+        //===================================================================================================
+
+        Log.i("Quest Userpool: ", Account.wordList.toString())
+
+
+        if (savedNumQuest != null) {
+            mQuestionsList = if (Account.wordList!!.size >= savedNumQuest.toFloat().toInt())
+                Account.getQuestions(savedNumQuest.toFloat().toInt())
+            else
+                Account.getQuestions(Account.wordList!!.size)
+        }
+
+
+        progressBar.max = mQuestionsList?.size!!
+        setQuestion()
         tv_option_one.setOnClickListener {
             selectedOptionView(tv_option_one, 1)
         }
@@ -92,7 +128,9 @@ class QuestionFragment : Fragment() {
      */
     @SuppressLint("SetTextI18n")
     private fun setQuestion() {
-        val question = mQuestionsList!!.get(mCurrentPosition - 1) // Getting the question from the list with the help of current position.
+        tv_progress.text = mCurrentPosition.toString()  + "/" + mQuestionsList?.size!!
+        Log.e("tv_progress.text", "$tv_progress.text")
+        val question = mQuestionsList!![mCurrentPosition - 1] // Getting the question from the list with the help of current position.
         defaultOptionsView()
 
         if (mCurrentPosition == mQuestionsList!!.size) {
@@ -166,5 +204,12 @@ class QuestionFragment : Fragment() {
                 tv_option_four.background = resources.getDrawable(drawableView)
             }
         }
+    }
+
+    private fun setupViewModel(inflater: LayoutInflater, container: ViewGroup?) {
+        questionViewModel = ViewModelProvider(this).get(QuestionViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_question, container, false)
+        binding.lifecycleOwner = this
+        binding.questionViewModelDataBinding = questionViewModel
     }
 }

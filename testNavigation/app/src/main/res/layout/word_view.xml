@@ -3,17 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="413dp"
+        android:layout_height="213dp"
         app:cardCornerRadius="10dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="389dp"
+            android:layout_height="230dp"
             android:foreground="@drawable/item_ripple_effect">
 
 
@@ -45,8 +50,8 @@
 
             <TextView
                 android:id="@+id/tv_movie_overview"
-                android:layout_width="376dp"
-                android:layout_height="175dp"
+                android:layout_width="415dp"
+                android:layout_height="66dp"
                 android:maxLines="8"
                 android:text="overview content"
                 android:textColor="@color/black"

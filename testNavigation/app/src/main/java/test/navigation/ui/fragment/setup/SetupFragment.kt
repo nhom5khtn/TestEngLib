@@ -2,6 +2,7 @@ package test.navigation.ui.fragment.setup
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import test.navigation.R
 import test.navigation.databinding.FragmentSetupBinding
+import test.navigation.store.Account
 
 class SetupFragment: Fragment() {
 
@@ -35,6 +37,7 @@ class SetupFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.i("Setup: userPool", Account.wordList.toString())
         binding.sWaitTime.value = 10.0F
         binding.sNumQuest.value = 30.0F
 
@@ -53,40 +56,21 @@ class SetupFragment: Fragment() {
             putString("DEFAULT_NUM_QUEST","30.0F")
         }
 
-        /*
-        Changes to a wait time slider can be observed
-        */
-//        val _waitTime = binding.sWaitTime.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-//            override fun onStartTrackingTouch(slider: Slider) {
-//                // Responds to when slider's touch event is being started
-//            }
-//
-//            override fun onStopTrackingTouch(slider: Slider) {
-//                // Responds to when slider's touch event is being stopped
-//            }
-//        })
 
-//        binding.sWaitTime.addOnChangeListener { slider, value, fromUser ->
-//            // Responds to when slider's value is changed
-//        }
-
-        /*
-        Changes to a num quest slider can be observed
-        */
-//        val _numQuest = binding.sNumQuest.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-//            override fun onStartTrackingTouch(slider: Slider) {
-//                // Responds to when slider's touch event is being started
-//            }
-//
-//            override fun onStopTrackingTouch(slider: Slider) {
-//                // Responds to when slider's touch event is being stopped
-//            }
-//        })
-
-//        binding.sNumQuest.addOnChangeListener { slider, value, fromUser ->
-//            // Responds to when slider's value is changed
-//        }
-
+        val savedWaitTime = saveConfig?.getString("WAIT_TIME","10.0F")
+        val savedNumQuest = saveConfig?.getString("NUM_QUEST","30.0F")
+        saveConfig?.edit {
+            putString("WAIT_TIME",waitTime.value.toString())
+            putString("NUM_QUEST",numQuest.value.toString())
+        }
+        Log.e(">>>>> savedWaitTime","$savedWaitTime")
+        Log.e(">>>>> savedNumQuest","$savedNumQuest")
+        if (savedWaitTime != null) {
+            binding.sWaitTime.setValue(savedWaitTime.toFloat())
+        }
+        if (savedNumQuest != null) {
+            binding.sNumQuest.setValue(savedNumQuest.toFloat())
+        }
 
         binding.apply {
 
