@@ -6,13 +6,14 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.edit
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_question.*
@@ -20,9 +21,12 @@ import test.navigation.R
 import test.navigation.databinding.FragmentQuestionBinding
 import test.navigation.model.question.Question
 import test.navigation.store.Account
+import test.navigation.ui.activity.main.MainActivity
+
 
 class QuestionFragment : Fragment() {
 
+    val TAG = MainActivity::class.java.simpleName
     private var mCurrentPosition: Int = 1 // Default and the first question position
     private var mQuestionsList: ArrayList<Question>? = null
     private var mCorrectAnswers: Int = 0
@@ -44,21 +48,21 @@ class QuestionFragment : Fragment() {
         val saveConfig = activity?.getSharedPreferences("CONFIGURATION", Context.MODE_PRIVATE)
 
         saveConfig?.edit {
-            putString("DEFAULT_WAIT_TIME","10.0F")
-            putString("DEFAULT_NUM_QUEST","30.0F")
+            putString("DEFAULT_WAIT_TIME", "10.0F")
+            putString("DEFAULT_NUM_QUEST", "30.0F")
         }
 
-        val savedWaitTime = saveConfig?.getString("WAIT_TIME","10.0F")
-        val savedNumQuest = saveConfig?.getString("NUM_QUEST","30.0F")
-        Log.e(">>>>> savedWaitTime","$savedWaitTime")
-        Log.e(">>>>> savedNumQuest","$savedNumQuest")
+        val savedWaitTime = saveConfig?.getString("WAIT_TIME", "10.0F")
+        val savedNumQuest = saveConfig?.getString("NUM_QUEST", "30.0F")
+        Log.e(">>>>> savedWaitTime", "$savedWaitTime")
+        Log.e(">>>>> savedNumQuest", "$savedNumQuest")
         if (savedWaitTime != null) {
-            var WaitTime = saveConfig.getString("DEFAULT_WAIT_TIME","10.0F")
-            Log.e(">>>>> savedWaitTime","$WaitTime")
+            var WaitTime = saveConfig.getString("DEFAULT_WAIT_TIME", "10.0F")
+            Log.e(">>>>> savedWaitTime", "$WaitTime")
         }
         if (savedNumQuest != null) {
-            var NumQuest = saveConfig.getString("DEFAULT_NUM_QUEST","30.0F")
-            Log.e(">>>>> savedNumQuest","$NumQuest")
+            var NumQuest = saveConfig.getString("DEFAULT_NUM_QUEST", "30.0F")
+            Log.e(">>>>> savedNumQuest", "$NumQuest")
         }
         //===================================================================================================
 
@@ -88,12 +92,27 @@ class QuestionFragment : Fragment() {
             selectedOptionView(tv_option_four, 4)
         }
 
+
+        //define a flag variable to permit user to click the button
+        var wrongChosen :Boolean = false
         btn_submit.setOnClickListener{
+            //if the user is trying to rechoose
+            if (wrongChosen == true) {
+                //make a toast to notify the user
+                Log.e(TAG,"Wrong Answer")
+                //Toast.makeText(TAG, "Wrong Answer", Toast.LENGTH_SHORT).show()
+				//The toast is error due to incorrect syntax. Please help me fix it
+                //reset the value to continue the next question
+                mSelectedOptionPosition = 0
+                wrongChosen = false
+            }
+            //if the user don't choose any answer
             if (mSelectedOptionPosition == 0) {
                 mCurrentPosition++
                 when {
                     mCurrentPosition <= mQuestionsList!!.size -> {
                         setQuestion()
+                        wrongChosen = false
                     }
                     else -> {
                         Account.CORRECT_ANSWERS = mCorrectAnswers
@@ -101,27 +120,35 @@ class QuestionFragment : Fragment() {
                         findNavController().navigate(R.id.action_questionFragment_to_resultFragment)
                     }
                 }
-            } else {
+           }
+            // if the user has chosen, the app will progress the answer
+            else {
+            {
                 val question = mQuestionsList?.get(mCurrentPosition - 1)
 
                 // This is to check if the answer is wrong
+
                 if (question!!.correctAnswer != mSelectedOptionPosition) {
                     answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+                    wrongChosen = true
                 } else {
                     mCorrectAnswers++
                 }
 
                 // This is for correct answer
                 answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
-                if (mCurrentPosition == mQuestionsList!!.size) {
-                    btn_submit.text = "FINISH"
-                } else {
-                    btn_submit.text = "GO TO NEXT QUESTION"
+
+                    if (mCurrentPosition == mQuestionsList!!.size) {
+                        btn_submit.text = "FINISH"
+                    } else {
+                        btn_submit.text = "GO TO NEXT QUESTION"
+                    }
+                    mSelectedOptionPosition = 0
                 }
-                mSelectedOptionPosition = 0
+
             }
         }
-    }
+
 
     /**
      * A function for setting the question to UI components.
