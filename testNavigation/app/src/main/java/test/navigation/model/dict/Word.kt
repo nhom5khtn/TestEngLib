@@ -2,10 +2,10 @@ package test.navigation.model.dict
 
 
 data class Word (
-    val word: String,
-    val phonetics: List<Phonetic>,
-    val meanings: List<Meaning>,
-    val isFavorite: Boolean = false
+        val word: String,
+        val phonetics: List<Phonetic>,
+        val meanings: List<Meaning>,
+        var isFavorite: Boolean = false
 )
 
 data class Phonetic (

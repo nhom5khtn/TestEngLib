@@ -86,20 +86,10 @@ class PrepareQuestionFragment : Fragment() {
 
     }
     private fun prepareUserPool(){
-        progress_bar_prepare_question.visibility = View.VISIBLE
-        database = Firebase.database.reference
-        database.child("users")
-            .child(Account.USER_ID)
-            .child("wordList")
-            .get().addOnSuccessListener { dataSnapshot ->
-                Log.i("firebase_welcome", "Got value ${dataSnapshot.value}")
-                if(dataSnapshot.value != null) {
-                    Account.userpool = dataSnapshot.value.toString()
-                    hasGetAPI = true
-                    questionViewModel.getWord(ParseWordList.from(Account.userpool))
-                }
-            }.addOnFailureListener{
-                Log.e("firebase_welcome", "Error getting data", it)
-            }
+        if(Account.userpool == "") hasGetAPI = false
+        else {
+            hasGetAPI = true
+            questionViewModel.getWord(ParseWordList.from(Account.userpool))
+        }
     }
 }

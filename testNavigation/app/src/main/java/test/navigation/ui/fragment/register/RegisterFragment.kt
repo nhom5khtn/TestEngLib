@@ -14,13 +14,13 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import test.navigation.R
 import test.navigation.databinding.FragmentRegisterBinding
+import test.navigation.networking.database.DatabaseAPI
 import test.navigation.store.Account
 
 
 class RegisterFragment : Fragment() {
     lateinit var binding: FragmentRegisterBinding
     private lateinit var registerViewModel: RegisterViewModel
-    private lateinit var database: DatabaseReference
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,15 +41,7 @@ class RegisterFragment : Fragment() {
                 if(registerViewModel.registerResponse.value?.meanings?.get(0).toString().isNotEmpty())
                     registerViewModel.registerResponse.value?.let { it1 ->
                         Log.e("add into userpool", it1.word)
-                        val value = Account.userpool + "," + it1.word
-                        database = Firebase.database.reference
-                        database
-                            .child("users")
-                            .child(Account.USER_ID)
-                            .child("wordList")
-                            .setValue(value)
-                        Account.userpool = value
-                        Account.wordList?.add(it1)
+                        DatabaseAPI.addUserPool(it1)
                     }
             }
         }

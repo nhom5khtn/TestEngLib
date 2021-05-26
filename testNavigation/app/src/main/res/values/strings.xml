@@ -3,7 +3,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_register">Register</string>
-    <string name="title_print">Print</string>
+    <string name="title_print">User Pool</string>
     <string name="title_setting">Setting</string>
     <string name="title_dev">Develop</string>
+    <string-array name="string_array_result">
+        <item>Opps, you\'re fail</item>
+        <item>Hey, Congratulations!</item>
+    </string-array>
 </resources>

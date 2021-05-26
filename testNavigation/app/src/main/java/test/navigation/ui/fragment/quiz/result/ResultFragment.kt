@@ -23,6 +23,13 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tv_score.text = "Your score is ${Account.CORRECT_ANSWERS} out of ${Account.TOTAL_QUESTIONS}"
+        if(Account.CORRECT_ANSWERS < Account.TOTAL_QUESTIONS/2) {
+            iv_result.setImageResource(R.drawable.failure)
+            tv_resultString.text = resources.getStringArray(R.array.string_array_result)[0]
+        } else {
+            iv_result.setImageResource(R.drawable.trophy)
+            tv_resultString.text = resources.getStringArray(R.array.string_array_result)[1]
+        }
         btn_finish.setOnClickListener {
             findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
         }
