@@ -37,6 +37,10 @@ class RegisterFragment : Fragment() {
                     fetchData(edtInputNewWord.text.toString())
             }
             binding.progressBarRegister.visibility = View.GONE
+            if(registerViewModel.registerResponse.value != null){
+                tvMeaning.text = registerViewModel.registerResponse.value?.meanings.toString()
+            }
+            binding.tvMeaning.text = registerViewModel.registerResponse.value?.meanings.toString()
             btnRegister.setOnClickListener {
                 if(registerViewModel.registerResponse.value?.meanings?.get(0).toString().isNotEmpty())
                     registerViewModel.registerResponse.value?.let { it1 ->
