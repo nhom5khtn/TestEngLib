@@ -31,12 +31,13 @@ class QuestionFragment : Fragment() {
     private var mQuestionsList: ArrayList<Question>? = null
     private var mCorrectAnswers: Int = 0
     private var mSelectedOptionPosition: Int = 0
+    private var wrongFlag: Boolean = false
     lateinit var questionViewModel: QuestionViewModel
     lateinit var binding: FragmentQuestionBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         setupViewModel(inflater, container)
         return binding.root
@@ -79,40 +80,54 @@ class QuestionFragment : Fragment() {
 
         progressBar.max = mQuestionsList?.size!!
         setQuestion()
-        tv_option_one.setOnClickListener {
-            selectedOptionView(tv_option_one, 1)
-        }
-        tv_option_two.setOnClickListener {
-            selectedOptionView(tv_option_two, 2)
-        }
-        tv_option_three.setOnClickListener {
-            selectedOptionView(tv_option_three, 3)
-        }
-        tv_option_four.setOnClickListener {
-            selectedOptionView(tv_option_four, 4)
-        }
 
-
-        //define a flag variable to permit user to click the button
-        var wrongChosen :Boolean = false
-        btn_submit.setOnClickListener{
-            //if the user is trying to rechoose
-            if (wrongChosen == true) {
-                //make a toast to notify the user
-                Log.e(TAG,"Wrong Answer")
-                //Toast.makeText(TAG, "Wrong Answer", Toast.LENGTH_SHORT).show()
-				//The toast is error due to incorrect syntax. Please help me fix it
-                //reset the value to continue the next question
-                mSelectedOptionPosition = 0
-                wrongChosen = false
+            tv_option_one.setOnClickListener {
+                if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
+                selectedOptionView(tv_option_one, 1)
+                }
+                else{
+                    //do nothing
+                }
             }
+            tv_option_two.setOnClickListener {
+                if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
+                    selectedOptionView(tv_option_two, 2)
+                }
+                else{
+                    //do nothing
+                }
+            }
+            tv_option_three.setOnClickListener {
+                if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
+                    selectedOptionView(tv_option_three, 3)
+                }
+                else{
+                    //do nothing
+                }
+            }
+            tv_option_four.setOnClickListener {
+                if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
+                    selectedOptionView(tv_option_four, 4)
+                }
+                else{
+                    //do nothing
+                }
+
+            }
+
+
+        btn_submit.setOnClickListener {
+           /* if (wrongFlag == true){
+                mSelectedOptionPosition = 0
+                wrongFlag = false
+                Log.e(TAG, "Wrong answer! Go to the next question")
+            }*/
             //if the user don't choose any answer
-            if (mSelectedOptionPosition == 0) {
+            if (mSelectedOptionPosition == 0 || btn_submit.text == "GO TO NEXT QUESTION" || btn_submit.text == "FINISH") {
                 mCurrentPosition++
                 when {
-                    mCurrentPosition <= mQuestionsList!!.size -> {
+                    mCurrentPosition  <= mQuestionsList!!.size +1-> {
                         setQuestion()
-                        wrongChosen = false
                     }
                     else -> {
                         Account.CORRECT_ANSWERS = mCorrectAnswers
@@ -120,123 +135,124 @@ class QuestionFragment : Fragment() {
                         findNavController().navigate(R.id.action_questionFragment_to_resultFragment)
                     }
                 }
-           }
+            }
             // if the user has chosen, the app will progress the answer
             else {
-            {
-                val question = mQuestionsList?.get(mCurrentPosition - 1)
 
-                // This is to check if the answer is wrong
+                    val question = mQuestionsList?.get(mCurrentPosition - 1)
 
-                if (question!!.correctAnswer != mSelectedOptionPosition) {
-                    answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
-                    wrongChosen = true
-                } else {
-                    mCorrectAnswers++
-                }
+                    // This is to check if the answer is wrong
 
-                // This is for correct answer
-                answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
-
+                    if (question!!.correctAnswer != mSelectedOptionPosition) {
+                        answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+                    } else {
+                        mCorrectAnswers++
+                    }
+                // This is result view
+                    answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
+                    tv_option_one.linksClickable = false
                     if (mCurrentPosition == mQuestionsList!!.size) {
                         btn_submit.text = "FINISH"
                     } else {
                         btn_submit.text = "GO TO NEXT QUESTION"
                     }
                     mSelectedOptionPosition = 0
+
                 }
 
-            }
-        }
 
-
-    /**
-     * A function for setting the question to UI components.
-     */
-    @SuppressLint("SetTextI18n")
-    private fun setQuestion() {
-        tv_progress.text = mCurrentPosition.toString()  + "/" + mQuestionsList?.size!!
-        Log.e("tv_progress.text", "$tv_progress.text")
-        val question = mQuestionsList!![mCurrentPosition - 1] // Getting the question from the list with the help of current position.
-        defaultOptionsView()
-
-        if (mCurrentPosition == mQuestionsList!!.size) {
-            btn_submit.text = "FINISH"
-        } else {
-            btn_submit.text = "SUBMIT"
-        }
-
-        progressBar.progress = mCurrentPosition
-        tv_progress.text = "$mCurrentPosition" + "/" + progressBar.max
-
-        tv_question.text = question.question
-        tv_option_one.text = question.optionOne
-        tv_option_two.text = question.optionTwo
-        tv_option_three.text = question.optionThree
-        tv_option_four.text = question.optionFour
-    }
-
-    /**
-     * A function to set the view of selected option view.
-     */
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
-
-        defaultOptionsView()
-
-        mSelectedOptionPosition = selectedOptionNum
-
-        tv.setTextColor(
-            Color.parseColor("#363A43")
-        )
-        tv.setTypeface(tv.typeface, Typeface.BOLD)
-        tv.background = resources.getDrawable(R.drawable.selected_option_border_bg)
-    }
-
-    /**
-     * A function to set default options view when the new question is loaded or when the answer is reselected.
-     */
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun defaultOptionsView() {
-
-        val options = ArrayList<TextView>()
-        options.add(0, tv_option_one)
-        options.add(1, tv_option_two)
-        options.add(2, tv_option_three)
-        options.add(3, tv_option_four)
-
-        for (option in options) {
-            option.setTextColor(Color.parseColor("#7A8089"))
-            option.typeface = Typeface.DEFAULT
-            option.background = resources.getDrawable(R.drawable.default_option_border_bg)
         }
     }
 
-    /**
-     * A function for answer view which is used to highlight the answer is wrong or right.
-     */
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun answerView(answer: Int, drawableView: Int) {
-        when (answer) {
-            1 -> {
-                tv_option_one.background = resources.getDrawable(drawableView)
+        /**
+         * A function for setting the question to UI components.
+         */
+        @SuppressLint("SetTextI18n")
+        private fun setQuestion() {
+            tv_progress.text = mCurrentPosition.toString() + "/" + mQuestionsList?.size!!
+            Log.e("tv_progress.text", "$tv_progress.text")
+            val question = mQuestionsList!![mCurrentPosition - 1] // Getting the question from the list with the help of current position.
+            defaultOptionsView()
+
+            if (mCurrentPosition == mQuestionsList!!.size) {
+                btn_submit.text = "FINISH"
+            } else {
+                btn_submit.text = "SUBMIT"
             }
-            2 -> {
-                tv_option_two.background = resources.getDrawable(drawableView)
-            }
-            3 -> {
-                tv_option_three.background = resources.getDrawable(drawableView)
-            }
-            4 -> {
-                tv_option_four.background = resources.getDrawable(drawableView)
+
+            progressBar.progress = mCurrentPosition
+            tv_progress.text = "$mCurrentPosition" + "/" + progressBar.max
+
+            tv_question.text = question.question
+            tv_option_one.text = question.optionOne
+            tv_option_two.text = question.optionTwo
+            tv_option_three.text = question.optionThree
+            tv_option_four.text = question.optionFour
+
+        }
+
+        /**
+         * A function to set the view of selected option view.
+         */
+        @SuppressLint("UseCompatLoadingForDrawables")
+        private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
+
+            defaultOptionsView()
+
+            mSelectedOptionPosition = selectedOptionNum
+
+            tv.setTextColor(
+                    Color.parseColor("#363A43")
+            )
+            tv.setTypeface(tv.typeface, Typeface.BOLD)
+            tv.background = resources.getDrawable(R.drawable.selected_option_border_bg)
+        }
+
+        /**
+         * A function to set default options view when the new question is loaded or when the answer is reselected.
+         */
+        @SuppressLint("UseCompatLoadingForDrawables")
+        private fun defaultOptionsView() {
+
+            val options = ArrayList<TextView>()
+            options.add(0, tv_option_one)
+            options.add(1, tv_option_two)
+            options.add(2, tv_option_three)
+            options.add(3, tv_option_four)
+
+                for (option in options) {
+                    option.setTextColor(Color.parseColor("#7A8089"))
+                    option.typeface = Typeface.DEFAULT
+                    option.background = resources.getDrawable(R.drawable.default_option_border_bg)
+
             }
         }
-    }
 
-    private fun setupViewModel(inflater: LayoutInflater, container: ViewGroup?) {
-        questionViewModel = ViewModelProvider(this).get(QuestionViewModel::class.java)
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_question, container, false)
-        binding.lifecycleOwner = this
-        binding.questionViewModelDataBinding = questionViewModel
+        /**
+         * A function for answer view which is used to highlight the answer is wrong or right.
+         */
+        @SuppressLint("UseCompatLoadingForDrawables")
+        private fun answerView(answer: Int, drawableView: Int) {
+            when (answer) {
+                1 -> {
+                    tv_option_one.background = resources.getDrawable(drawableView)
+                }
+                2 -> {
+                    tv_option_two.background = resources.getDrawable(drawableView)
+                }
+                3 -> {
+                    tv_option_three.background = resources.getDrawable(drawableView)
+                }
+                4 -> {
+                    tv_option_four.background = resources.getDrawable(drawableView)
+                }
+            }
+        }
+
+        private fun setupViewModel(inflater: LayoutInflater, container: ViewGroup?) {
+            questionViewModel = ViewModelProvider(this).get(QuestionViewModel::class.java)
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_question, container, false)
+            binding.lifecycleOwner = this
+            binding.questionViewModelDataBinding = questionViewModel
+        }
     }
-}
