@@ -2,16 +2,20 @@ package test.navigation.ui.fragment.home
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.fragment_home.*
 import test.navigation.R
+import test.navigation.store.Account
 import test.navigation.ui.activity.main.MainActivity
 
 class HomeFragment : Fragment() {
+
+    private lateinit var menu: Menu
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.e("HomeFragment", "onCreate")
         super.onCreate(savedInstanceState)
@@ -27,6 +31,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBottomNavigationView()
+        setHasOptionsMenu(true)
         setupViewPager()
     }
     private fun setupBottomNavigationView() {
@@ -54,7 +59,6 @@ class HomeFragment : Fragment() {
         }
     }
     private fun setupViewPager() {
-        (activity as MainActivity).supportActionBar?.title  = "HomeFragment"
         home_view_pager.adapter = HomeViewPagerAdapter(childFragmentManager)
         home_view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
@@ -69,23 +73,34 @@ class HomeFragment : Fragment() {
                 when (position) {
                     HomeViewPagerAdapter.REGISTER_PAGE -> {
                         bottom_navigation_view.menu.findItem(R.id.navigation_register).isChecked = true
-                        (activity as MainActivity).supportActionBar?.setTitle(R.string.title_register)
                     }
                     HomeViewPagerAdapter.PRINT_PAGE -> {
                         bottom_navigation_view.menu.findItem(R.id.navigation_print).isChecked = true
-                        (activity as MainActivity).supportActionBar?.setTitle(R.string.title_print)
                     }
                     HomeViewPagerAdapter.SETUP_PAGE -> {
                         bottom_navigation_view.menu.findItem(R.id.navigation_setup).isChecked = true
-                        (activity as MainActivity).supportActionBar?.setTitle(R.string.title_setting)
                     }
                     HomeViewPagerAdapter.DEVELOP_PAGE -> {
                         bottom_navigation_view.menu.findItem(R.id.navigation_develop).isChecked = true
-                        (activity as MainActivity).supportActionBar?.setTitle(R.string.title_dev)
                     }
 
                 }
             }
         })
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        Log.d("Home", "onCreateOption")
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_home, menu)
+        this.menu = menu
+        menu[0].icon = ContextCompat.getDrawable(requireActivity(), R.drawable.icon_menu)
+        (activity as MainActivity).supportActionBar?.apply {
+            title = "  " + Account.USER_NAME
+            setDisplayShowHomeEnabled(true)
+            setLogo(R.drawable.icon_dev)
+            setDisplayUseLogoEnabled(true)
+        }
     }
 }

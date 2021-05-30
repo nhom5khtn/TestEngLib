@@ -23,6 +23,8 @@ class SplashActivity : AppCompatActivity() {
         firebaseUser = FirebaseAuth.getInstance().currentUser
         if(firebaseUser != null){
             Account.USER_ID = firebaseUser?.uid.toString()
+            Account.USER_NAME = "username"
+            Account.USER_IMAGE = R.drawable.trophy
             DatabaseAPI.getData()
         }
 

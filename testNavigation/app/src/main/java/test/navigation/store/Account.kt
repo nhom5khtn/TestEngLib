@@ -1,11 +1,12 @@
 package test.navigation.store
 
-import test.navigation.model.dict.ParseWordList
 import test.navigation.model.dict.Word
 import test.navigation.model.question.CreateQuestion
 import test.navigation.model.question.Question
 
 object Account {
+    var USER_IMAGE: Int = 0
+    var USER_NAME: String = "user_name"
     var USER_ID: String = "user_id"
     var TOTAL_QUESTIONS: Int = 0
     var CORRECT_ANSWERS: Int = 0
