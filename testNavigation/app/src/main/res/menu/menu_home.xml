@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:icon="@drawable/icon_menu">
     <item
-        android:icon="@drawable/icon_signout"
-        android:title="Log out"
-        app:showAsAction="collapseActionView" />
+        android:id="@+id/menuWithIconText"
+        android:title=""
+        />
 </menu>

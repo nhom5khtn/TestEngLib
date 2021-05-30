@@ -1,8 +1,13 @@
 package test.navigation.ui.fragment.home
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ImageSpan
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -11,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import test.navigation.R
 import test.navigation.store.Account
 import test.navigation.ui.activity.main.MainActivity
+
 
 class HomeFragment : Fragment() {
 
@@ -72,7 +78,8 @@ class HomeFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 when (position) {
                     HomeViewPagerAdapter.REGISTER_PAGE -> {
-                        bottom_navigation_view.menu.findItem(R.id.navigation_register).isChecked = true
+                        bottom_navigation_view.menu.findItem(R.id.navigation_register).isChecked =
+                            true
                     }
                     HomeViewPagerAdapter.PRINT_PAGE -> {
                         bottom_navigation_view.menu.findItem(R.id.navigation_print).isChecked = true
@@ -81,7 +88,8 @@ class HomeFragment : Fragment() {
                         bottom_navigation_view.menu.findItem(R.id.navigation_setup).isChecked = true
                     }
                     HomeViewPagerAdapter.DEVELOP_PAGE -> {
-                        bottom_navigation_view.menu.findItem(R.id.navigation_develop).isChecked = true
+                        bottom_navigation_view.menu.findItem(R.id.navigation_develop).isChecked =
+                            true
                     }
 
                 }
@@ -96,11 +104,36 @@ class HomeFragment : Fragment() {
         inflater.inflate(R.menu.menu_home, menu)
         this.menu = menu
         menu[0].icon = ContextCompat.getDrawable(requireActivity(), R.drawable.icon_menu)
+        menu.clear()
+        menu.add(
+            0, 1, 1, menuIconWithText(
+                ContextCompat.getDrawable(requireActivity(), R.drawable.icon_signout)!!,
+                "Log out"
+            )
+        )
+
         (activity as MainActivity).supportActionBar?.apply {
             title = "  " + Account.USER_NAME
             setDisplayShowHomeEnabled(true)
             setLogo(R.drawable.icon_dev)
             setDisplayUseLogoEnabled(true)
         }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            1 -> {
+                // xử lý khi click vô log out
+                Log.i("Logout", " executive ")
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    private fun menuIconWithText(r: Drawable, title: String): CharSequence {
+        r.setBounds(0, 0, r.intrinsicWidth, r.intrinsicHeight)
+        val sb = SpannableString("    $title")
+        val imageSpan = ImageSpan(r, ImageSpan.ALIGN_BOTTOM)
+        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        return sb
     }
 }
