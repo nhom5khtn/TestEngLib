@@ -27,11 +27,10 @@ import test.navigation.ui.activity.main.MainActivity
 class QuestionFragment : Fragment() {
 
     val TAG = MainActivity::class.java.simpleName
-    private var mCurrentPosition: Int = 1 // Default and the first question position
+    private var mCurrentPosition: Int = 0 // Default and the first question position
     private var mQuestionsList: ArrayList<Question>? = null
     private var mCorrectAnswers: Int = 0
     private var mSelectedOptionPosition: Int = 0
-    private var wrongFlag: Boolean = false
     lateinit var questionViewModel: QuestionViewModel
     lateinit var binding: FragmentQuestionBinding
 
@@ -117,16 +116,11 @@ class QuestionFragment : Fragment() {
 
 
         btn_submit.setOnClickListener {
-           /* if (wrongFlag == true){
-                mSelectedOptionPosition = 0
-                wrongFlag = false
-                Log.e(TAG, "Wrong answer! Go to the next question")
-            }*/
             //if the user don't choose any answer
             if (mSelectedOptionPosition == 0 || btn_submit.text == "GO TO NEXT QUESTION" || btn_submit.text == "FINISH") {
                 mCurrentPosition++
                 when {
-                    mCurrentPosition  <= mQuestionsList!!.size +1-> {
+                    mCurrentPosition  < (mQuestionsList!!.size)-> {
                         setQuestion()
                     }
                     else -> {
@@ -139,7 +133,7 @@ class QuestionFragment : Fragment() {
             // if the user has chosen, the app will progress the answer
             else {
 
-                    val question = mQuestionsList?.get(mCurrentPosition - 1)
+                    val question = mQuestionsList?.get(mCurrentPosition)
 
                     // This is to check if the answer is wrong
 
@@ -171,17 +165,18 @@ class QuestionFragment : Fragment() {
         private fun setQuestion() {
             tv_progress.text = mCurrentPosition.toString() + "/" + mQuestionsList?.size!!
             Log.e("tv_progress.text", "$tv_progress.text")
-            val question = mQuestionsList!![mCurrentPosition - 1] // Getting the question from the list with the help of current position.
+            val question = mQuestionsList!![mCurrentPosition] // Getting the question from the list with the help of current position.
             defaultOptionsView()
 
-            if (mCurrentPosition == mQuestionsList!!.size) {
+            /*if (mCurrentPosition == mQuestionsList!!.size+1) {
                 btn_submit.text = "FINISH"
             } else {
                 btn_submit.text = "SUBMIT"
-            }
-
+            }*/
+			btn_submit.text = "SUBMIT"
             progressBar.progress = mCurrentPosition
-            tv_progress.text = "$mCurrentPosition" + "/" + progressBar.max
+            var mCurrentPositionToShow: Int = mCurrentPosition +1
+            tv_progress.text = "$mCurrentPositionToShow" + "/" + progressBar.max
 
             tv_question.text = question.question
             tv_option_one.text = question.optionOne
