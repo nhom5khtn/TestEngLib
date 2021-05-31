@@ -34,7 +34,9 @@ class PrintAdapter :
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvWord: TextView? = itemView.findViewById(R.id.tv_word)
-        private val tvMeaning: TextView? = itemView.findViewById(R.id.tv_meaning)
+        private val tvMeaning_1: TextView? = itemView.findViewById(R.id.tv_meaning1)
+        private val tvMeaning_2: TextView? = itemView.findViewById(R.id.tv_meaning2)
+        private val tvAntonym: TextView? = itemView.findViewById(R.id.tv_antonymWord)
 
         companion object {
             // khởi tạo layout cho item_view
@@ -49,7 +51,9 @@ class PrintAdapter :
                 listener.onItemClicked(word)
             }
             tvWord!!.text = word.word
-            tvMeaning!!.text = word.meanings.toString()
+            tvMeaning_1!!.text = word.meanings.toString()
+            tvMeaning_2!!.text = word.meanings.toString()
+            tvAntonym!!.text = word.meanings.toString()
         }
     }
 
