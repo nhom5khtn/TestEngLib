@@ -39,9 +39,10 @@ class SetupFragment: Fragment() {
         var numQuest: Slider? = binding.sNumQuest   //numquest slider ref
 
         Log.i("Setup: userPool", Account.wordList.toString())
+        Log.i("Setup: userID", Account.USER_ID)
 
         // init shared preferences with default config keys
-        val saveConfig = this.activity?.getSharedPreferences("CONFIGURATION", Context.MODE_PRIVATE)
+        val saveConfig = this.activity?.getSharedPreferences("CONFIGURATION_"+Account.USER_ID, Context.MODE_PRIVATE)
         saveConfig?.edit {
             putString("DEFAULT_WAIT_TIME", "10.0F")
             putString("DEFAULT_NUM_QUEST", "30.0F")
@@ -145,7 +146,7 @@ class SetupFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val saveConfig = this.activity?.getSharedPreferences("CONFIGURATION", Context.MODE_PRIVATE)
+        val saveConfig = this.activity?.getSharedPreferences("CONFIGURATION_"+Account.USER_ID, Context.MODE_PRIVATE)
 
     }
 
