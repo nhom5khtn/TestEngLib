@@ -12,6 +12,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_home.*
 import test.navigation.R
 import test.navigation.store.Account
@@ -21,6 +27,9 @@ import test.navigation.ui.activity.main.MainActivity
 class HomeFragment : Fragment() {
 
     private lateinit var menu: Menu
+    var refUsers: DatabaseReference? = null
+    var firebaseUser: FirebaseUser? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.e("HomeFragment", "onCreate")
@@ -35,10 +44,15 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        refUsers = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
         super.onViewCreated(view, savedInstanceState)
         setupBottomNavigationView()
         setHasOptionsMenu(true)
         setupViewPager()
+
+
     }
     private fun setupBottomNavigationView() {
 
@@ -118,7 +132,10 @@ class HomeFragment : Fragment() {
             setLogo(R.drawable.icon_dev)
             setDisplayUseLogoEnabled(true)
         }
+
     }
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             1 -> {

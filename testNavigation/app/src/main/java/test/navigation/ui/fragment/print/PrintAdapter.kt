@@ -1,12 +1,17 @@
 package test.navigation.ui.fragment.print
 
+import android.content.Context
+import android.graphics.drawable.GradientDrawable
+import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Space
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import test.navigation.R
@@ -25,7 +30,8 @@ class PrintAdapter :
             return oldItem == newItem
         }
     }
-    var listener: WordItemListener? = null
+
+    var listener: PreCachingLayoutManager.WordItemListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent) as ViewHolder
@@ -43,13 +49,14 @@ class PrintAdapter :
 
         companion object {
             // khởi tạo layout cho item_view
-            fun from(parent: ViewGroup) : RecyclerView.ViewHolder {
+            fun from(parent: ViewGroup): RecyclerView.ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val view = layoutInflater.inflate(R.layout.word_view, parent, false)
                 return ViewHolder(view)
             }
         }
-        fun bind(word: Word, listener: WordItemListener) {
+
+        fun bind(word: Word, listener: PreCachingLayoutManager.WordItemListener) {
             itemView.setOnClickListener {
                 listener.onItemClicked(word)
             }
@@ -71,7 +78,37 @@ class PrintAdapter :
         }
     }
 
-    interface WordItemListener {
-        fun onItemClicked(word: Word)
+    class PreCachingLayoutManager : LinearLayoutManager {
+        private val defaultExtraLayoutSpace = 600
+        private var extraLayoutSpace = -1
+        private var context: Context? = null
+
+        constructor(context: Context?) : super(context) {
+            this.context = context
+        }
+
+        constructor(context: Context, extraLayoutSpace: Int) : super(context) {
+            this.context = context
+            this.extraLayoutSpace = extraLayoutSpace
+        }
+
+        constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout) {
+            this.context = context
+        }
+
+        fun setExtraLayoutSpace(extraLayoutSpace: Int) {
+            this.extraLayoutSpace = extraLayoutSpace
+        }
+
+        override fun getExtraLayoutSpace(state: RecyclerView.State?): Int {
+            return if (extraLayoutSpace > 0) {
+                extraLayoutSpace
+            } else defaultExtraLayoutSpace
+
+        }
+
+        interface WordItemListener {
+            fun onItemClicked(word: Word)
+        }
     }
 }
