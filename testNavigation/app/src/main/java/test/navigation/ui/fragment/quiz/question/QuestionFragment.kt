@@ -168,11 +168,6 @@ class QuestionFragment : Fragment() {
             val question = mQuestionsList!![mCurrentPosition] // Getting the question from the list with the help of current position.
             defaultOptionsView()
 
-            /*if (mCurrentPosition == mQuestionsList!!.size+1) {
-                btn_submit.text = "FINISH"
-            } else {
-                btn_submit.text = "SUBMIT"
-            }*/
 			btn_submit.text = "SUBMIT"
             progressBar.progress = mCurrentPosition
             var mCurrentPositionToShow: Int = mCurrentPosition +1
