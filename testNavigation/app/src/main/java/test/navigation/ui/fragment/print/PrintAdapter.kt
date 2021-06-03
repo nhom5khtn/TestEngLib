@@ -1,9 +1,11 @@
 package test.navigation.ui.fragment.print
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +39,7 @@ class PrintAdapter :
         private val tvMeaning_1: TextView? = itemView.findViewById(R.id.tv_meaning1)
         private val tvMeaning_2: TextView? = itemView.findViewById(R.id.tv_meaning2)
         private val tvAntonym: TextView? = itemView.findViewById(R.id.tv_antonymWord)
+        val heart = itemView.findViewById<ToggleButton>(R.id.heart)
 
         companion object {
             // khởi tạo layout cho item_view
@@ -50,10 +53,23 @@ class PrintAdapter :
             itemView.setOnClickListener {
                 listener.onItemClicked(word)
             }
+            heart.isChecked = word.isFavorite
             tvWord!!.text = word.word
             tvMeaning_1!!.text = word.meanings.toString()
             tvMeaning_2!!.text = word.meanings.toString()
             tvAntonym!!.text = word.meanings.toString()
+            heart.setOnCheckedChangeListener { _, isChecked ->
+                word.isFavorite=isChecked
+                if (isChecked){
+                    DatabaseAPI.addFavUserPool(word)
+                    Log.e("heart", "stored")
+                    Log.e("heart", Account.favUserPool)
+                }else{
+                    DatabseAPI.removeFavUserPool(word)
+                    Log.e("heart", "not stored")
+                    Log.e("heart", Account.favUserPool)
+                }
+            }
         }
     }
 

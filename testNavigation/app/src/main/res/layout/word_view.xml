@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="413dp"
-        android:layout_height="180dp"
+        android:layout_height="480dp"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="389dp"
-            android:layout_height="200dp"
+            android:layout_height="520dp"
             android:foreground="@drawable/item_ripple_effect">
 
 
@@ -30,42 +30,110 @@
                 android:layout_marginEnd="316dp"
                 android:text="Word"
                 android:textColor="@color/purple_700"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_meaning1"
-                android:layout_width="168dp"
-                android:layout_height="32dp"
-                android:layout_marginTop="4dp"
-                android:text="Meaning1"
-                android:textColor="@color/teal_700"
+            <ToggleButton
+                android:layout_width="30dp"
+                android:layout_height="28dp"
+                android:background="@drawable/heart_selector"
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.068"
+                app:layout_constraintHorizontal_bias="0.955"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1443"/>
+
+            <TextView
+                android:id="@+id/tv_wordType1"
+                android:layout_width="96dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Word Type 1"
+                android:textColor="@color/purple_700"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.038"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_word" />
 
+
             <TextView
-                android:id="@+id/tv_meaning2"
-                android:layout_width="168dp"
+                android:id="@+id/tv_meaning1"
+                android:layout_width="320dp"
                 android:layout_height="32dp"
-                android:layout_marginTop="4dp"
-                android:text="Meaning2"
+                android:layout_marginTop="8dp"
+                android:text="1. Meaning1"
                 android:textColor="@color/teal_700"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.068"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_wordType1" />
+
+            <TextView
+                android:id="@+id/tv_example1"
+                android:layout_width="320dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Ex 1:"
+                android:textColor="@color/teal_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_meaning1" />
 
             <TextView
-                android:id="@+id/tv_antonymWord"
-                android:layout_width="168dp"
+                android:id="@+id/tv_meaning2"
+                android:layout_width="320dp"
                 android:layout_height="32dp"
-                android:layout_marginTop="4dp"
-                android:text="Antonym"
+                android:layout_marginTop="76dp"
+                android:text="2. Meaning2"
+                android:textColor="@color/teal_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_meaning1" />
+
+            <TextView
+                android:id="@+id/tv_example2"
+                android:layout_width="320dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Ex 2: "
+                android:textColor="@color/teal_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_meaning2" />
+
+            <TextView
+                android:id="@+id/tv_wordType2"
+                android:layout_width="96dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="64dp"
+                android:text="Word Type 2"
                 android:textColor="@color/purple_700"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.038"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_meaning2" />
+
+            <TextView
+                android:id="@+id/tv_antonymWord"
+                android:layout_width="180dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="110dp"
+                android:text="Antonym Word"
+                android:textColor="@color/purple_700"
+                android:textSize="20dp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.068"
                 app:layout_constraintStart_toStartOf="parent"
