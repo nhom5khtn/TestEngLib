@@ -55,7 +55,7 @@ class PrintAdapter :
             }
             heart.isChecked = word.isFavorite
             tvWord!!.text = word.word
-            tvMeaning!!.text = word.meanings.toString()
+            tvMeaning!!.text = word.meanings[0].definitions[0].definition
             heart.setOnCheckedChangeListener { _, isChecked ->
                 word.isFavorite = isChecked
                 if (isChecked) {

@@ -37,6 +37,8 @@ class PrintFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         printAdapter.notifyDataSetChanged()
+        setupRecyclerView()
+        fetchData()
     }
     private fun setupRecyclerView() {
         Log.d("Print", "setupRecycler")
@@ -80,6 +82,9 @@ class PrintFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
         if (Account.favUserPool.isNotEmpty()){
             Account.setFavorite()
+        }
+        else{
+
         }
         Log.e("list in printAdapter", Account.wordList.toString())
         printAdapter.submitList(Account.wordList)

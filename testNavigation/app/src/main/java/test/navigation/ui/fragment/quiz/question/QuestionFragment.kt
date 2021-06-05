@@ -169,7 +169,7 @@ class QuestionFragment : Fragment() {
             defaultOptionsView()
 
 			btn_submit.text = "SUBMIT"
-            progressBar.progress = mCurrentPosition
+            progressBar.progress = mCurrentPosition+1
             var mCurrentPositionToShow: Int = mCurrentPosition +1
             tv_progress.text = "$mCurrentPositionToShow" + "/" + progressBar.max
 

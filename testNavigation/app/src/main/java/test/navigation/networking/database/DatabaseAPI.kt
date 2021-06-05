@@ -56,14 +56,19 @@ object DatabaseAPI {
         Account.favUserPool = value
     }
     fun removeFavUserPool(word: Word){
-        Account.wordList?.indexOf(word)?.let { Account.wordList?.get(it)?.isFavorite = false}
-        val value = separate(Account.favUserPool, word.word)
-        database
-                .child("users")
-                .child(Account.USER_ID)
-                .child("favWordList")
-                .setValue(value)
-        Account.favUserPool = value
+        if(Account.favUserPool.contains(",")) {
+            Account.wordList?.indexOf(word)?.let { Account.wordList?.get(it)?.isFavorite = false }
+            val value = separate(Account.favUserPool, word.word)
+            database
+                    .child("users")
+                    .child(Account.USER_ID)
+                    .child("favWordList")
+                    .setValue(value)
+            Account.favUserPool = value
+        }
+        else{
+            //do nothing 
+        }
     }
     private fun separate(list: String, key: String): String{
         val first 	= list.substring(0,list.indexOf(","))
