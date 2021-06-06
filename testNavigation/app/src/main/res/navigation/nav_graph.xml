@@ -81,6 +81,11 @@
         android:name="test.navigation.ui.fragment.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+        <action
+            android:id="@+id/action_homeFragment_to_welcomeFragment"
+            app:destination="@+id/welcomeFragment">
+
+        </action>
     <fragment
         android:id="@+id/resultFragment"
         android:name="test.navigation.ui.fragment.quiz.result.ResultFragment"

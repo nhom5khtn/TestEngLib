@@ -12,6 +12,7 @@ object DatabaseAPI {
     fun getData(){
         database.child("users")
                 .child(Account.USER_ID)
+                .child("username")
                 .child("wordList")
                 .get().addOnSuccessListener { dataSnapshot ->
                     Log.i("getData", "Got value ${dataSnapshot.value}")

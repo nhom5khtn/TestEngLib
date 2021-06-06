@@ -55,7 +55,7 @@ class SignUpFragment : Fragment() {
                         task->
                     if(task.isSuccessful){
                         firebaseUserID = mAuth.currentUser!!.uid
-                        refUsers = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUserID)
+                        refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUserID)
 
                         val userHashMap = HashMap<String, Any>()
                         userHashMap["uid"] = firebaseUserID

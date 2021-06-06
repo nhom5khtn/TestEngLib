@@ -3,8 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:icon="@drawable/icon_menu">
+<!--    <item-->
+<!--        android:id="@+id/menuWithIconText"-->
+<!--        android:title=""-->
+<!--        />-->
     <item
-        android:id="@+id/menuWithIconText"
-        android:title=""
-        />
+        android:id="@+id/action_logout"
+        android:orderInCategory="100"
+        android:title="Log Out"
+        app:showAsAction="never" />
 </menu>

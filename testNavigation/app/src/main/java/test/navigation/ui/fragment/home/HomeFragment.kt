@@ -1,5 +1,7 @@
 package test.navigation.ui.fragment.home
 
+import android.content.ClipData
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Spannable
@@ -7,21 +9,21 @@ import android.text.SpannableString
 import android.text.style.ImageSpan
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import test.navigation.R
 import test.navigation.store.Account
 import test.navigation.ui.activity.main.MainActivity
+import test.navigation.ui.fragment.welcome.WelcomeFragment
 
 
 class HomeFragment : Fragment() {
@@ -31,9 +33,15 @@ class HomeFragment : Fragment() {
     var firebaseUser: FirebaseUser? = null
 
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.e("HomeFragment", "onCreate")
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
+
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +49,8 @@ class HomeFragment : Fragment() {
     ): View? {
         Log.e("HomeFragment", "onCreateView")
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+       val view = inflater.inflate(R.layout.fragment_home, container, false)
+        return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -54,6 +63,9 @@ class HomeFragment : Fragment() {
 
 
     }
+
+
+
     private fun setupBottomNavigationView() {
 
         bottom_navigation_view.setOnNavigationItemSelectedListener {
@@ -127,10 +139,26 @@ class HomeFragment : Fragment() {
         )
 
         (activity as MainActivity).supportActionBar?.apply {
-            title = "  " + Account.USER_NAME
+                        title = "  "
             setDisplayShowHomeEnabled(true)
             setLogo(R.drawable.icon_dev)
             setDisplayUseLogoEnabled(true)
+
+            // display username and profile picture
+            refUsers!!.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.exists()) {
+                        //     val user: Users? = p0.getValue(Users::class.java)
+                        var user:Account? = p0.getValue(Account::class.java)
+                      title as String + user!!.USER_NAME
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         }
 
     }
@@ -141,6 +169,10 @@ class HomeFragment : Fragment() {
             1 -> {
                 // xử lý khi click vô log out
                 Log.i("Logout", " executive ")
+                FirebaseAuth.getInstance().signOut()
+
+               findNavController().navigate(R.id.action_homeFragment_to_welcomeFragment)
+
                 return true
             }
         }
@@ -154,3 +186,5 @@ class HomeFragment : Fragment() {
         return sb
     }
 }
+
+
