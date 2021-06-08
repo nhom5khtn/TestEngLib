@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -23,7 +24,7 @@ import test.navigation.store.Account
 
 class QuestionFragment : Fragment() {
 
-    private var mCurrentPosition: Int = 1 // Default and the first question position
+    private var mCurrentPosition: Int = 0 // Default and the first question position
     private var mQuestionsList: ArrayList<Question>? = null
     private var mCorrectAnswers: Int = 0
     private var mSelectedOptionPosition: Int = 0
@@ -31,8 +32,8 @@ class QuestionFragment : Fragment() {
     lateinit var binding: FragmentQuestionBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         setupViewModel(inflater, container)
         return binding.root
@@ -44,21 +45,21 @@ class QuestionFragment : Fragment() {
         val saveConfig = activity?.getSharedPreferences("CONFIGURATION", Context.MODE_PRIVATE)
 
         saveConfig?.edit {
-            putString("DEFAULT_WAIT_TIME","10.0F")
-            putString("DEFAULT_NUM_QUEST","30.0F")
+            putString("DEFAULT_WAIT_TIME", "10.0F")
+            putString("DEFAULT_NUM_QUEST", "30.0F")
         }
 
-        val savedWaitTime = saveConfig?.getString("WAIT_TIME","10.0F")
-        val savedNumQuest = saveConfig?.getString("NUM_QUEST","30.0F")
-        Log.e(">>>>> savedWaitTime","$savedWaitTime")
-        Log.e(">>>>> savedNumQuest","$savedNumQuest")
+        val savedWaitTime = saveConfig?.getString("WAIT_TIME", "10.0F")
+        val savedNumQuest = saveConfig?.getString("NUM_QUEST", "30.0F")
+        Log.e(">>>>> savedWaitTime", "$savedWaitTime")
+        Log.e(">>>>> savedNumQuest", "$savedNumQuest")
         if (savedWaitTime != null) {
-            var WaitTime = saveConfig.getString("DEFAULT_WAIT_TIME","10.0F")
-            Log.e(">>>>> savedWaitTime","$WaitTime")
+            var WaitTime = saveConfig.getString("DEFAULT_WAIT_TIME", "10.0F")
+            Log.e(">>>>> savedWaitTime", "$WaitTime")
         }
         if (savedNumQuest != null) {
-            var NumQuest = saveConfig.getString("DEFAULT_NUM_QUEST","30.0F")
-            Log.e(">>>>> savedNumQuest","$NumQuest")
+            var NumQuest = saveConfig.getString("DEFAULT_NUM_QUEST", "30.0F")
+            Log.e(">>>>> savedNumQuest", "$NumQuest")
         }
         //===================================================================================================
 
@@ -75,24 +76,48 @@ class QuestionFragment : Fragment() {
 
         progressBar.max = mQuestionsList?.size!!
         setQuestion()
+
         tv_option_one.setOnClickListener {
-            selectedOptionView(tv_option_one, 1)
+            if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
+                selectedOptionView(tv_option_one, 1)
+            }
+            else{
+                //do nothing
+            }
         }
         tv_option_two.setOnClickListener {
-            selectedOptionView(tv_option_two, 2)
+            if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
+                selectedOptionView(tv_option_two, 2)
+            }
+            else{
+                //do nothing
+            }
         }
         tv_option_three.setOnClickListener {
-            selectedOptionView(tv_option_three, 3)
+            if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
+                selectedOptionView(tv_option_three, 3)
+            }
+            else{
+                //do nothing
+            }
         }
         tv_option_four.setOnClickListener {
-            selectedOptionView(tv_option_four, 4)
+            if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
+                selectedOptionView(tv_option_four, 4)
+            }
+            else{
+                //do nothing
+            }
+
         }
 
-        btn_submit.setOnClickListener{
-            if (mSelectedOptionPosition == 0) {
+
+        btn_submit.setOnClickListener {
+            //if the user don't choose any answer
+            if (mSelectedOptionPosition == 0 || btn_submit.text == "GO TO NEXT QUESTION" || btn_submit.text == "FINISH") {
                 mCurrentPosition++
                 when {
-                    mCurrentPosition <= mQuestionsList!!.size -> {
+                    mCurrentPosition  < (mQuestionsList!!.size)-> {
                         setQuestion()
                     }
                     else -> {
@@ -101,25 +126,32 @@ class QuestionFragment : Fragment() {
                         findNavController().navigate(R.id.action_questionFragment_to_resultFragment)
                     }
                 }
-            } else {
-                val question = mQuestionsList?.get(mCurrentPosition - 1)
+            }
+            // if the user has chosen, the app will progress the answer
+            else {
+
+                val question = mQuestionsList?.get(mCurrentPosition)
 
                 // This is to check if the answer is wrong
+
                 if (question!!.correctAnswer != mSelectedOptionPosition) {
                     answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
                 } else {
                     mCorrectAnswers++
                 }
-
-                // This is for correct answer
+                // This is result view
                 answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
+                tv_option_one.linksClickable = false
                 if (mCurrentPosition == mQuestionsList!!.size) {
                     btn_submit.text = "FINISH"
                 } else {
                     btn_submit.text = "GO TO NEXT QUESTION"
                 }
                 mSelectedOptionPosition = 0
+
             }
+
+
         }
     }
 
@@ -128,25 +160,22 @@ class QuestionFragment : Fragment() {
      */
     @SuppressLint("SetTextI18n")
     private fun setQuestion() {
-        tv_progress.text = mCurrentPosition.toString()  + "/" + mQuestionsList?.size!!
+        tv_progress.text = mCurrentPosition.toString() + "/" + mQuestionsList?.size!!
         Log.e("tv_progress.text", "$tv_progress.text")
-        val question = mQuestionsList!![mCurrentPosition - 1] // Getting the question from the list with the help of current position.
+        val question = mQuestionsList!![mCurrentPosition] // Getting the question from the list with the help of current position.
         defaultOptionsView()
 
-        if (mCurrentPosition == mQuestionsList!!.size) {
-            btn_submit.text = "FINISH"
-        } else {
-            btn_submit.text = "SUBMIT"
-        }
-
-        progressBar.progress = mCurrentPosition
-        tv_progress.text = "$mCurrentPosition" + "/" + progressBar.max
+        btn_submit.text = "SUBMIT"
+        progressBar.progress = mCurrentPosition+1
+        val mCurrentPositionToShow: Int = mCurrentPosition +1
+        tv_progress.text = "$mCurrentPositionToShow" + "/" + progressBar.max
 
         tv_question.text = question.question
         tv_option_one.text = question.optionOne
         tv_option_two.text = question.optionTwo
         tv_option_three.text = question.optionThree
         tv_option_four.text = question.optionFour
+
     }
 
     /**
@@ -160,10 +189,10 @@ class QuestionFragment : Fragment() {
         mSelectedOptionPosition = selectedOptionNum
 
         tv.setTextColor(
-            Color.parseColor("#363A43")
+                Color.parseColor("#363A43")
         )
         tv.setTypeface(tv.typeface, Typeface.BOLD)
-        tv.background = resources.getDrawable(R.drawable.selected_option_border_bg)
+        tv.background = ContextCompat.getDrawable(requireActivity(), R.drawable.selected_option_border_bg)
     }
 
     /**
@@ -181,7 +210,8 @@ class QuestionFragment : Fragment() {
         for (option in options) {
             option.setTextColor(Color.parseColor("#7A8089"))
             option.typeface = Typeface.DEFAULT
-            option.background = resources.getDrawable(R.drawable.default_option_border_bg)
+            option.background = ContextCompat.getDrawable(requireActivity(), R.drawable.default_option_border_bg)
+
         }
     }
 
@@ -192,16 +222,16 @@ class QuestionFragment : Fragment() {
     private fun answerView(answer: Int, drawableView: Int) {
         when (answer) {
             1 -> {
-                tv_option_one.background = resources.getDrawable(drawableView)
+                tv_option_one.background = ContextCompat.getDrawable(requireActivity(), drawableView)
             }
             2 -> {
-                tv_option_two.background = resources.getDrawable(drawableView)
+                tv_option_two.background = ContextCompat.getDrawable(requireActivity(), drawableView)
             }
             3 -> {
-                tv_option_three.background = resources.getDrawable(drawableView)
+                tv_option_three.background = ContextCompat.getDrawable(requireActivity(), drawableView)
             }
             4 -> {
-                tv_option_four.background = resources.getDrawable(drawableView)
+                tv_option_four.background = ContextCompat.getDrawable(requireActivity(), drawableView)
             }
         }
     }

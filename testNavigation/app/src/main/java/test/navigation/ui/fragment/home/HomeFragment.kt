@@ -11,7 +11,9 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
 import test.navigation.R
 import test.navigation.store.Account
@@ -26,14 +28,15 @@ class HomeFragment : Fragment() {
         Log.e("HomeFragment", "onCreate")
         super.onCreate(savedInstanceState)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         Log.e("HomeFragment", "onCreateView")
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBottomNavigationView()
@@ -124,6 +127,8 @@ class HomeFragment : Fragment() {
             1 -> {
                 // xử lý khi click vô log out
                 Log.i("Logout", " executive ")
+                FirebaseAuth.getInstance().signOut()
+                findNavController().navigate(R.id.action_homeFragment_to_welcomeFragment)
                 return true
             }
         }

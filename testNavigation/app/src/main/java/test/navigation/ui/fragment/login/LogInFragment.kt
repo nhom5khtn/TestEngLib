@@ -22,7 +22,6 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -34,9 +33,8 @@ class LoginFragment : Fragment() {
         }
     }
     private fun loginUser() {
-        val email:String=edt_email_login.text.toString()
-        val password:String=edt_password_login.text.toString()
-
+        val email       = edt_email_login.text.toString()
+        val password    = edt_password_login.text.toString()
 
         when {
             email == "" -> {
@@ -49,9 +47,8 @@ class LoginFragment : Fragment() {
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                         task->
                     if(task.isSuccessful){
-                        Account.USER_ID = FirebaseAuth.getInstance().currentUser?.uid.toString()
-                        Account.USER_NAME = "username"
-                        Account.USER_IMAGE = R.drawable.trophy
+                        Account.USER_ID =  FirebaseAuth.getInstance().currentUser?.uid.toString()
+                        DatabaseAPI.getUserName()
                         DatabaseAPI.getData()
                         findNavController().navigate(R.id.action_loginFragment_to_prepareQuestionFragment)
                     }

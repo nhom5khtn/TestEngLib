@@ -23,7 +23,7 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tv_score.text = "Your score is ${Account.CORRECT_ANSWERS} out of ${Account.TOTAL_QUESTIONS}"
-        if(Account.CORRECT_ANSWERS < Account.TOTAL_QUESTIONS/2) {
+        if(Account.CORRECT_ANSWERS < Account.TOTAL_QUESTIONS/2 || Account.CORRECT_ANSWERS == 0) {
             iv_result.setImageResource(R.drawable.failure)
             tv_resultString.text = resources.getStringArray(R.array.string_array_result)[0]
         } else {

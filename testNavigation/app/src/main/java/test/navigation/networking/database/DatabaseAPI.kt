@@ -9,8 +9,22 @@ import test.navigation.store.Account
 
 object DatabaseAPI {
     private val database = Firebase.database.reference
+    fun getUserName(){
+        database.child("USERS")
+            .child(Account.USER_ID)
+            .child("usename")
+            .get().addOnSuccessListener { dataSnapshot ->
+                Log.i("getData", "Got value ${dataSnapshot.value}")
+                if(dataSnapshot.value != null) {
+                    Account.USER_NAME = dataSnapshot.value.toString()
+                }
+            }.addOnFailureListener{
+                Account.USER_NAME = ""
+                Log.e("firebase_welcome", "Error getting data", it)
+            }
+    }
     fun getData(){
-        database.child("users")
+        database.child("USERS")
                 .child(Account.USER_ID)
                 .child("wordList")
                 .get().addOnSuccessListener { dataSnapshot ->
@@ -22,7 +36,7 @@ object DatabaseAPI {
                     Account.userpool = ""
                     Log.e("firebase_welcome", "Error getting data", it)
                 }
-        database.child("users")
+        database.child("USERS")
                 .child(Account.USER_ID)
                 .child("favWordList")
                 .get().addOnSuccessListener { dataSnapshot ->
@@ -35,21 +49,27 @@ object DatabaseAPI {
                     Log.e("firebase_welcome", "Error getting data", it)
                 }
     }
-    fun addUserPool(word: Word){
-        val value = if(Account.userpool == "") Account.userpool + word.word else Account.userpool + "," + word.word
-        database
-                .child("users")
+    fun addUserPool(word: Word): Boolean{
+        if (Account.userpool.contains(word.word)){
+            return false
+        } else {
+            val value =
+                if (Account.userpool == "") Account.userpool + word.word else Account.userpool + "," + word.word
+            database
+                .child("USERS")
                 .child(Account.USER_ID)
                 .child("wordList")
                 .setValue(value)
-        Account.userpool = value
-        Account.wordList?.add(word)
+            Account.userpool = value
+            Account.wordList?.add(word)
+            return true
+        }
     }
     fun addFavUserPool(word: Word){
         Account.wordList?.indexOf(word)?.let { Account.wordList?.get(it)?.isFavorite = true}
         val value = if(Account.favUserPool == "") Account.favUserPool + word.word else Account.favUserPool + "," + word.word
         database
-                .child("users")
+                .child("USERS")
                 .child(Account.USER_ID)
                 .child("favWordList")
                 .setValue(value)
@@ -59,27 +79,31 @@ object DatabaseAPI {
         Account.wordList?.indexOf(word)?.let { Account.wordList?.get(it)?.isFavorite = false}
         val value = separate(Account.favUserPool, word.word)
         database
-                .child("users")
+                .child("USERS")
                 .child(Account.USER_ID)
                 .child("favWordList")
                 .setValue(value)
         Account.favUserPool = value
     }
     private fun separate(list: String, key: String): String{
-        val first 	= list.substring(0,list.indexOf(","))
-        println("first = $first")
-        val last 	= list.substring(list.lastIndexOf(",")+1)
-        println("last = $last")
-        return when (key){
-            first -> {
-                list.split("${key},")[1]
-            }
-            last -> {
-                list.split(",${key}")[0]
-            }
-            else -> {
-                val arr = list.split(",${key},")
-                arr[0] + arr[1]
+        if(!list.contains(",")){
+            return ""
+        } else {
+            val first 	= list.substring(0,list.indexOf(","))
+            println("first = $first")
+            val last 	= list.substring(list.lastIndexOf(",")+1)
+            println("last = $last")
+            return when (key){
+                first -> {
+                    list.split("${key},")[1]
+                }
+                last -> {
+                    list.split(",${key}")[0]
+                }
+                else -> {
+                    val arr = list.split(",${key},")
+                    arr[0] + arr[1]
+                }
             }
         }
     }

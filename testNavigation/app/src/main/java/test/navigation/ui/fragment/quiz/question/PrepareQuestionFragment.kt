@@ -4,15 +4,13 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_prepare_question.*
 import test.navigation.R
 import test.navigation.model.dict.ParseWordList
@@ -21,9 +19,8 @@ import test.navigation.store.Account
 
 class PrepareQuestionFragment : Fragment() {
 
-    lateinit var questionViewModel: QuestionViewModel
-    private lateinit var database: DatabaseReference
-    var hasGetAPI = false
+    private lateinit var questionViewModel: QuestionViewModel
+    var isReady = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,24 +32,33 @@ class PrepareQuestionFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prepareUserPool()
+        if(Account.userpool == "") {
+            isReady = true
+        } else {
+            Log.e("isReady", "not : need to prepare data for QuestionFragment")
+            progress_bar_prepare_question.visibility = View.VISIBLE
+            prepareUserPool()
+            isReady = true
+        }
     }
 
     override fun onStart() {
         Log.e("onStart", "check get api")
-        Log.i("onStart", hasGetAPI.toString())
+        Log.e("onStart", isReady.toString())
 
         super.onStart()
         progress_bar_prepare_question.visibility = View.GONE
         btn_begin.setOnClickListener {
-            if (hasGetAPI) {
+            if (isReady) {
                 if(Account.wordList?.isNotEmpty() == true)
                     findNavController().navigate(R.id.action_prepareQuestionFragment_to_questionFragment)
                 else {
                     val builder = activity?.let { it1 -> AlertDialog.Builder(it1) }
                     builder?.apply {
-                        setTitle("Waiting for loading data!")
+                        setTitle("Oppsss!")
+                        setMessage("You don't have any in your pool.")
                         setPositiveButton("Continue!") { _: DialogInterface, _: Int ->
+                            findNavController().navigate(R.id.action_prepareQuestionFragment_to_homeFragment)
                         }
                         show()
                     }
@@ -60,10 +66,8 @@ class PrepareQuestionFragment : Fragment() {
             } else {
                 val builder = activity?.let { it1 -> AlertDialog.Builder(it1) }
                 builder?.apply {
-                    setTitle("Oppsss!")
-                    setMessage("You don't have any in your pool.")
+                    setTitle("Waiting for loading data!")
                     setPositiveButton("Continue!") { _: DialogInterface, _: Int ->
-                        findNavController().navigate(R.id.action_prepareQuestionFragment_to_homeFragment)
                     }
                     show()
                 }
@@ -86,10 +90,10 @@ class PrepareQuestionFragment : Fragment() {
 
     }
     private fun prepareUserPool(){
-        if(Account.userpool == "") hasGetAPI = false
-        else {
-            hasGetAPI = true
-            questionViewModel.getWord(ParseWordList.from(Account.userpool))
-        }
+        questionViewModel.getWord(ParseWordList.from(Account.userpool)).observe(viewLifecycleOwner, {
+            activity?.runOnUiThread {
+                progress_bar_prepare_question.visibility = View.GONE
+            }
+        })
     }
 }

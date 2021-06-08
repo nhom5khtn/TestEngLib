@@ -1,5 +1,6 @@
 package test.navigation.ui.fragment.print
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import test.navigation.R
@@ -25,7 +27,7 @@ class PrintAdapter :
             return oldItem == newItem
         }
     }
-    var listener: WordItemListener? = null
+    var listener: PreCachingLayoutManager.WordItemListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent) as ViewHolder
@@ -38,8 +40,10 @@ class PrintAdapter :
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvWord: TextView? = itemView.findViewById(R.id.tv_word)
-        private val tvMeaning: TextView? = itemView.findViewById(R.id.tv_meaning)
-        val heart = itemView.findViewById<ToggleButton>(R.id.heart)
+        private val tvMeaning_1: TextView? = itemView.findViewById(R.id.tv_meaning1)
+        private val tvMeaning_2: TextView? = itemView.findViewById(R.id.tv_meaning2)
+        private val tvAntonym: TextView? = itemView.findViewById(R.id.tv_antonymWord)
+        private val heart = itemView.findViewById<ToggleButton>(R.id.heart)
 
         companion object {
             // khởi tạo layout cho item_view
@@ -49,13 +53,15 @@ class PrintAdapter :
                 return ViewHolder(view)
             }
         }
-        fun bind(word: Word, listener: WordItemListener) {
+        fun bind(word: Word, listener: PreCachingLayoutManager.WordItemListener) {
             itemView.setOnClickListener {
                 listener.onItemClicked(word)
             }
             heart.isChecked = word.isFavorite
             tvWord!!.text = word.word
-            tvMeaning!!.text = word.meanings.toString()
+            tvMeaning_1!!.text = word.meanings.toString()
+            tvMeaning_2!!.text = word.meanings.toString()
+            tvAntonym!!.text = word.meanings.toString()
             heart.setOnCheckedChangeListener { _, isChecked ->
                 word.isFavorite = isChecked
                 if (isChecked) {
@@ -70,8 +76,37 @@ class PrintAdapter :
             }
         }
     }
+    class PreCachingLayoutManager : LinearLayoutManager {
+        private val defaultExtraLayoutSpace = 600
+        private var extraLayoutSpace = -1
+        private var context: Context? = null
 
-    interface WordItemListener {
-        fun onItemClicked(word: Word)
+        constructor(context: Context?) : super(context) {
+            this.context = context
+        }
+
+        constructor(context: Context, extraLayoutSpace: Int) : super(context) {
+            this.context = context
+            this.extraLayoutSpace = extraLayoutSpace
+        }
+
+        constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout) {
+            this.context = context
+        }
+
+        fun setExtraLayoutSpace(extraLayoutSpace: Int) {
+            this.extraLayoutSpace = extraLayoutSpace
+        }
+
+        override fun getExtraLayoutSpace(state: RecyclerView.State?): Int {
+            return if (extraLayoutSpace > 0) {
+                extraLayoutSpace
+            } else defaultExtraLayoutSpace
+
+        }
+
+        interface WordItemListener {
+            fun onItemClicked(word: Word)
+        }
     }
 }

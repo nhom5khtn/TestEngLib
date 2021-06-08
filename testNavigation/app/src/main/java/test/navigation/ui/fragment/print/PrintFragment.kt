@@ -37,11 +37,13 @@ class PrintFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         printAdapter.notifyDataSetChanged()
+        setupRecyclerView()
+        fetchData()
     }
     private fun setupRecyclerView() {
         Log.d("Print", "setupRecycler")
         printAdapter = PrintAdapter()
-        printAdapter.listener = object : PrintAdapter.WordItemListener {
+        printAdapter.listener = object : PrintAdapter.PreCachingLayoutManager.WordItemListener {
             override fun onItemClicked(word: Word) {
 //                ViewCompat.postOnAnimationDelayed(view!!, // Delay to show ripple effect
 //                    Runnable {
