@@ -59,12 +59,33 @@ class RegisterFragment : Fragment() {
             }
             binding.progressBarRegister.visibility = View.GONE
             btnRegister.setOnClickListener {
-               // if (valid == true){
-                        registerViewModel.registerResponse?.value?.let { it ->
-                            Log.e("add into userpool", it.word)
-                            DatabaseAPI.addUserPool(it)
-                        }
-                //}
+               if(!edtInputNewWord.text.isEmpty() && valid) {
+                   registerViewModel.registerResponse?.value?.let { it ->
+                       Log.e("add into userpool", it.word)
+                       DatabaseAPI.addUserPool(it)
+                       val dialog = AlertDialog.Builder(requireContext()).create()
+                       dialog.setMessage("Your word has been added to Pool!")
+                       dialog.setTitle("Success")
+                       dialog.setButton(
+                               Dialog.BUTTON_POSITIVE, "OK"
+                       ) { dialog, _ ->
+                           dialog.dismiss()
+                       }
+                       dialog.show()
+                   }
+                   valid = false
+               }
+                else{
+                   val dialog = AlertDialog.Builder(requireContext()).create()
+                   dialog.setMessage("You must type a valid word!")
+                   dialog.setTitle("Error")
+                   dialog.setButton(
+                           Dialog.BUTTON_POSITIVE, "OK"
+                   ) { dialog, _ ->
+                       dialog.dismiss()
+                   }
+                   dialog.show()
+                }
 
             }
         }
