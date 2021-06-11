@@ -65,13 +65,13 @@ class PrintAdapter :
             heart.setOnCheckedChangeListener { _, isChecked ->
                 word.isFavorite = isChecked
                 if (isChecked) {
-                    DatabaseAPI.addFavUserPool(word)
                     Log.e("heart", "stored")
                     Log.e("heart", Account.favUserPool)
+                    DatabaseAPI.clicked(word.word)
                 } else {
-                    DatabaseAPI.removeFavUserPool(word)
                     Log.e("heart", "not stored")
                     Log.e("heart", Account.favUserPool)
+                    DatabaseAPI.unClicked(word.word)
                 }
             }
         }

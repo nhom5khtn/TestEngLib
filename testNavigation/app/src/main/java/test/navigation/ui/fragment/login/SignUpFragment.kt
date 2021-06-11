@@ -27,13 +27,7 @@ class SignUpFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_sign_up, container, false)
     }
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-//            findNavController().navigate(R.id.action_signUpFragment_to_welcomeFragment)
-//        }
-//    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mAuth = FirebaseAuth.getInstance()
@@ -68,8 +62,7 @@ class SignUpFragment : Fragment() {
                         userHashMap["uid"] = firebaseUserID
                         userHashMap["username"]=username
 
-                        refUsers.updateChildren(userHashMap).addOnCompleteListener{
-                                task->
+                        refUsers.updateChildren(userHashMap).addOnCompleteListener{ task->
                             if(task.isSuccessful){
                                 Account.USER_ID = firebaseUserID
                                 Account.USER_NAME = username

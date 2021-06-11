@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_login.*
 import test.navigation.R
 import test.navigation.networking.database.DatabaseAPI
@@ -49,7 +48,7 @@ class LoginFragment : Fragment() {
                     if(task.isSuccessful){
                         Account.USER_ID =  FirebaseAuth.getInstance().currentUser?.uid.toString()
                         DatabaseAPI.getUserName()
-                        DatabaseAPI.getData()
+                        DatabaseAPI.getWordList()
                         findNavController().navigate(R.id.action_loginFragment_to_prepareQuestionFragment)
                     }
                     else{

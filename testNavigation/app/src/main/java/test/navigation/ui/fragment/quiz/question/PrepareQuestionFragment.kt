@@ -20,7 +20,6 @@ import test.navigation.store.Account
 class PrepareQuestionFragment : Fragment() {
 
     private lateinit var questionViewModel: QuestionViewModel
-    var isReady = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,44 +29,21 @@ class PrepareQuestionFragment : Fragment() {
         questionViewModel = ViewModelProvider(this).get(QuestionViewModel::class.java)
         return inflater.inflate(R.layout.fragment_prepare_question, container, false)
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if(Account.userpool == "") {
-            isReady = true
-        } else {
-            Log.e("isReady", "not : need to prepare data for QuestionFragment")
-            progress_bar_prepare_question.visibility = View.VISIBLE
-            prepareUserPool()
-            isReady = true
-        }
-    }
 
     override fun onStart() {
-        Log.e("onStart", "check get api")
-        Log.e("onStart", isReady.toString())
 
         super.onStart()
         progress_bar_prepare_question.visibility = View.GONE
         btn_begin.setOnClickListener {
-            if (isReady) {
-                if(Account.wordList?.isNotEmpty() == true)
-                    findNavController().navigate(R.id.action_prepareQuestionFragment_to_questionFragment)
-                else {
-                    val builder = activity?.let { it1 -> AlertDialog.Builder(it1) }
-                    builder?.apply {
-                        setTitle("Oppsss!")
-                        setMessage("You don't have any in your pool.")
-                        setPositiveButton("Continue!") { _: DialogInterface, _: Int ->
-                            findNavController().navigate(R.id.action_prepareQuestionFragment_to_homeFragment)
-                        }
-                        show()
-                    }
-                }
-            } else {
+            if(Account.wordList?.isNotEmpty() == true)
+                findNavController().navigate(R.id.action_prepareQuestionFragment_to_questionFragment)
+            else {
                 val builder = activity?.let { it1 -> AlertDialog.Builder(it1) }
                 builder?.apply {
-                    setTitle("Waiting for loading data!")
+                    setTitle("Oppsss!")
+                    setMessage("You don't have any in your pool.")
                     setPositiveButton("Continue!") { _: DialogInterface, _: Int ->
+                        findNavController().navigate(R.id.action_prepareQuestionFragment_to_homeFragment)
                     }
                     show()
                 }
@@ -88,12 +64,5 @@ class PrepareQuestionFragment : Fragment() {
             }
         }
 
-    }
-    private fun prepareUserPool(){
-        questionViewModel.getWord(ParseWordList.from(Account.userpool)).observe(viewLifecycleOwner, {
-            activity?.runOnUiThread {
-                progress_bar_prepare_question.visibility = View.GONE
-            }
-        })
     }
 }

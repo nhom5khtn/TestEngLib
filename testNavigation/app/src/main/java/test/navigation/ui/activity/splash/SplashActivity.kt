@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import test.navigation.R
@@ -24,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
         if(firebaseUser != null){
             Account.USER_ID = firebaseUser?.uid.toString()
             DatabaseAPI.getUserName()
-            DatabaseAPI.getData()
+            DatabaseAPI.getWordList()
         }
 
         var handler = Handler()
