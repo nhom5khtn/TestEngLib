@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_login.*
 import test.navigation.R
+import test.navigation.databinding.FragmentLoginBinding
 import test.navigation.networking.database.DatabaseAPI
 import test.navigation.store.Account
+import test.navigation.ui.fragment.print.PrintViewModel
 
 class LoginFragment : Fragment() {
 
@@ -34,7 +38,6 @@ class LoginFragment : Fragment() {
     private fun loginUser() {
         val email       = edt_email_login.text.toString()
         val password    = edt_password_login.text.toString()
-
         when {
             email == "" -> {
                 Toast.makeText(activity,"Please write email", Toast.LENGTH_LONG).show()

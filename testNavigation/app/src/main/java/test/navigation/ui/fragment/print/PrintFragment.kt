@@ -20,7 +20,6 @@ class PrintFragment : Fragment() {
     private lateinit var printAdapter: PrintAdapter
     lateinit var binding: FragmentPrintBinding
     private lateinit var printViewModel: PrintViewModel
-    private lateinit var menu: Menu
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

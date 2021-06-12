@@ -43,6 +43,10 @@ class RegisterFragment : Fragment() {
                 }
             }
             binding.progressBarRegister.visibility = View.GONE
+            if(registerViewModel.registerResponse.value != null){
+                tvMeaning.text = registerViewModel.registerResponse.value?.meanings.toString()
+            }
+            else binding.tvMeaning.text = ""
             btnRegister.setOnClickListener {
                 if (edtInputNewWord.text.isNotEmpty() && valid) {
                     edtInputNewWord.error = null

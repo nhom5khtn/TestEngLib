@@ -35,8 +35,8 @@ class SetupFragment: Fragment() {
             false
         )
 
-        var waitTime: Slider? = binding.sWaitTime   // waittime slider ref
-        var numQuest: Slider? = binding.sNumQuest   //numquest slider ref
+        val waitTime: Slider = binding.sWaitTime   // waittime slider ref
+        val numQuest: Slider = binding.sNumQuest   //numquest slider ref
 
         Log.i("Setup: userPool", Account.wordList.toString())
         Log.i("Setup: userID", Account.USER_ID)
@@ -68,13 +68,9 @@ class SetupFragment: Fragment() {
                     sNumQuest.value = defaultNumQuest.toFloat()
                 }
             } else {
-                if (savedWaitTime != null) {
-                    if (savedNumQuest != null) {
-                        //setupConfig(waitTime, numQuest)
-                        binding.sWaitTime.value = savedWaitTime.toFloat()
-                        binding.sNumQuest.value = savedNumQuest.toFloat()
-                    }
-                }
+                //setupConfig(waitTime, numQuest)
+                binding.sWaitTime.value = savedWaitTime.toFloat()
+                binding.sNumQuest.value = savedNumQuest.toFloat()
             }
         }
 
@@ -89,15 +85,11 @@ class SetupFragment: Fragment() {
 
         binding.apply {
             btnSaveSetup.setOnClickListener {
-                if (waitTime != null) {
-                    viewModel.setConfigurationWaitTimeQuest(waitTime)
-                }
-                if (numQuest != null) {
-                    viewModel.setConfigurationNumberQuests(numQuest)
-                }
+                viewModel.setConfigurationWaitTimeQuest(waitTime)
+                viewModel.setConfigurationNumberQuests(numQuest)
                 saveConfig?.edit {
-                    putString("WAIT_TIME", waitTime?.value.toString())
-                    putString("NUM_QUEST", numQuest?.value.toString())
+                    putString("WAIT_TIME", waitTime.value.toString())
+                    putString("NUM_QUEST", numQuest.value.toString())
                 }
             }
             btnDefault.setOnClickListener {
