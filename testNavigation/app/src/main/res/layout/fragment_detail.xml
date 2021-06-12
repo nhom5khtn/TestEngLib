@@ -40,7 +40,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="22dp"
                 android:text="Pronunciation"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/tv_phonetics"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_word" />
 
@@ -50,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="212dp"
+                android:layout_marginEnd="178dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_Pronunciation"

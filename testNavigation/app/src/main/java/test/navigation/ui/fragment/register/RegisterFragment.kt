@@ -1,5 +1,6 @@
 package test.navigation.ui.fragment.register
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
@@ -43,10 +44,7 @@ class RegisterFragment : Fragment() {
                 }
             }
             binding.progressBarRegister.visibility = View.GONE
-            if(registerViewModel.registerResponse.value != null){
-                tvMeaning.text = registerViewModel.registerResponse.value?.meanings.toString()
-            }
-            else binding.tvMeaning.text = ""
+            setWidget(registerViewModel.registerResponse.value != null)
             btnRegister.setOnClickListener {
                 if (edtInputNewWord.text.isNotEmpty() && valid) {
                     edtInputNewWord.error = null
@@ -93,10 +91,11 @@ class RegisterFragment : Fragment() {
             activity?.runOnUiThread {
                 binding.progressBarRegister.visibility = View.GONE
                 if (it != null) {
-                    binding.tvMeaning.text = it.meanings[0].definitions[0].definition
+                    setWidget(true)
                     newWord = it
                     valid = true
                 } else {
+                    setWidget(false)
                     newWord = null
                     valid = false
                     val dialog = AlertDialog.Builder(requireContext()).create()
@@ -109,5 +108,23 @@ class RegisterFragment : Fragment() {
                 }
             }
         })
+    }
+    @SuppressLint("SetTextI18n")
+    fun setWidget(isNotNull: Boolean){
+        binding.apply {
+            if(!isNotNull){
+                tvWordRegister.text         = ""
+                tvPhoneticRegister.text     = ""
+                tvPosRegister.text          = ""
+                tvDefRegister.text          = ""
+                tvExampleRegister.text      = ""
+            } else {
+                tvWordRegister.text         = registerViewModel.registerResponse.value?.word
+                tvPhoneticRegister.text     = "Pronunciation: " + registerViewModel.registerResponse.value?.phonetics?.get(0)!!.text
+                tvPosRegister.text          = registerViewModel.registerResponse.value?.meanings?.get(0)!!.partOfSpeech
+                tvDefRegister.text          = registerViewModel.registerResponse.value?.meanings?.get(0)!!.definitions[0].definition
+                tvExampleRegister.text      = "'" + registerViewModel.registerResponse.value?.meanings?.get(0)!!.definitions[0].example + "'"
+            }
+        }
     }
 }

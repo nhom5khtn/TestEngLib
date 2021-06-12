@@ -65,7 +65,7 @@ class PrintAdapter :
             tvMeaning!!.text = word.meanings[0].definitions[0].definition
             tvPhonetic!!.text = word.phonetics[0].text
             tvPartOfSpeech!!.text = word.meanings[0].partOfSpeech
-            tvExample!!.text = "Example: " + word.meanings[0].definitions[0].example
+            tvExample!!.text = "Example: '" + word.meanings[0].definitions[0].example + "'"
             heart.setOnCheckedChangeListener { _, isChecked ->
                 word.isFavorite = isChecked
                 if (isChecked) {
