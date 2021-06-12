@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.PagerAdapter
-import test.navigation.ui.fragment.Develop.DevelopFragment
+import test.navigation.ui.fragment.develop.DevelopFragment
 import test.navigation.ui.fragment.setup.SetupFragment
 import test.navigation.ui.fragment.print.PrintFragment
 import test.navigation.ui.fragment.register.RegisterFragment

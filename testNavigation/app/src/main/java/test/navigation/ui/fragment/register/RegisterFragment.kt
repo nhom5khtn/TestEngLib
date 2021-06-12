@@ -49,7 +49,6 @@ class RegisterFragment : Fragment() {
                     registerViewModel.registerResponse.value?.let { wordResp ->
                         Log.e("add into userpool", wordResp.word)
                         val check = DatabaseAPI.addUserPool(wordResp)
-                        DatabaseAPI.writeNewWord(wordResp)
                         if (!check) {
                             val dialog = AlertDialog.Builder(requireContext()).create()
                             dialog.setMessage("This word is exist in your pool")

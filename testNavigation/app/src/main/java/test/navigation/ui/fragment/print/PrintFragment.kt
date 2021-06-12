@@ -3,8 +3,8 @@ package test.navigation.ui.fragment.print
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.core.content.ContextCompat
-import androidx.core.view.get
+import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +14,7 @@ import test.navigation.R
 import test.navigation.databinding.FragmentPrintBinding
 import test.navigation.model.dict.Word
 import test.navigation.store.Account
+import androidx.navigation.fragment.findNavController
 
 class PrintFragment : Fragment() {
     private lateinit var printAdapter: PrintAdapter
@@ -45,12 +46,12 @@ class PrintFragment : Fragment() {
         printAdapter = PrintAdapter()
         printAdapter.listener = object : PrintAdapter.PreCachingLayoutManager.WordItemListener {
             override fun onItemClicked(word: Word) {
-//                ViewCompat.postOnAnimationDelayed(view!!, // Delay to show ripple effect
-//                    Runnable {
-//                        val bundle = bundleOf("movie" to movie)
-//                        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
-//                    }
-//                    ,50)
+                ViewCompat.postOnAnimationDelayed(view!!, // Delay to show ripple effect
+                    {
+                        val bundle = bundleOf("word" to word)
+                        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+                    }
+                    ,50)
                 Log.e("click item", "dgwg")
             }
         }

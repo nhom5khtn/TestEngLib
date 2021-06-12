@@ -23,58 +23,80 @@
 
 
             <TextView
-                android:id="@+id/tv_word"
-                android:layout_width="68dp"
-                android:layout_height="29dp"
+                android:id="@+id/tv_word_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="316dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Word"
                 android:textColor="@color/purple_700"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_meaning1"
-                android:layout_width="300dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="Meaning1"
-                android:textColor="@color/teal_700"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.068"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_word" />
+                android:id="@+id/tv_phonetic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-light"
+                android:text="phonetic"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toEndOf="@+id/tv_word_key"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_meaning2"
+                android:id="@+id/tv_part_of_speech_print"
                 android:layout_width="300dp"
-                android:layout_height="32dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="Meaning2"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="86dp"
+                android:fontFamily="sans-serif-light"
+                android:text="part of speech"
                 android:textColor="@color/teal_700"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:typeface="normal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.068"
+                app:layout_constraintHorizontal_bias="0.16"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_meaning1" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_word_key" />
 
             <TextView
-                android:id="@+id/tv_antonymWord"
+                android:id="@+id/tv_meaning"
                 android:layout_width="300dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="Antonym"
-                android:textColor="@color/purple_700"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Meaning"
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.068"
+                app:layout_constraintHorizontal_bias="0.16"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_meaning2" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_part_of_speech_print" />
+
+            <TextView
+                android:id="@+id/tv_example_print"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif"
+                android:text="Example"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.32"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_meaning" />
 
             <ToggleButton
                 android:id="@+id/heart"

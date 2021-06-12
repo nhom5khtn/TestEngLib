@@ -1,4 +1,4 @@
-package test.navigation.ui.fragment.Develop
+package test.navigation.ui.fragment.develop
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

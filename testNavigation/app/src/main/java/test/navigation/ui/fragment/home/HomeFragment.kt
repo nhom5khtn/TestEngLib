@@ -118,7 +118,7 @@ class HomeFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.apply {
             title = "  " + Account.USER_NAME
             setDisplayShowHomeEnabled(true)
-            setLogo(R.drawable.icon_dev)
+            setLogo(R.drawable.icon_user)
             setDisplayUseLogoEnabled(true)
         }
     }

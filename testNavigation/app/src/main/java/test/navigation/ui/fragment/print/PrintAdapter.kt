@@ -1,5 +1,6 @@
 package test.navigation.ui.fragment.print
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,10 +40,11 @@ class PrintAdapter :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvWord: TextView? = itemView.findViewById(R.id.tv_word)
-        private val tvMeaning_1: TextView? = itemView.findViewById(R.id.tv_meaning1)
-        private val tvMeaning_2: TextView? = itemView.findViewById(R.id.tv_meaning2)
-        private val tvAntonym: TextView? = itemView.findViewById(R.id.tv_antonymWord)
+        private val tvWord: TextView? = itemView.findViewById(R.id.tv_word_key)
+        private val tvMeaning: TextView? = itemView.findViewById(R.id.tv_meaning)
+        private val tvPhonetic: TextView? = itemView.findViewById(R.id.tv_phonetic)
+        private val tvPartOfSpeech: TextView? = itemView.findViewById(R.id.tv_part_of_speech_print)
+        private val tvExample: TextView? = itemView.findViewById(R.id.tv_example_print)
         private val heart = itemView.findViewById<ToggleButton>(R.id.heart)
 
         companion object {
@@ -53,15 +55,17 @@ class PrintAdapter :
                 return ViewHolder(view)
             }
         }
+        @SuppressLint("SetTextI18n")
         fun bind(word: Word, listener: PreCachingLayoutManager.WordItemListener) {
             itemView.setOnClickListener {
                 listener.onItemClicked(word)
             }
             heart.isChecked = word.isFavorite
             tvWord!!.text = word.word
-            tvMeaning_1!!.text = word.meanings.toString()
-            tvMeaning_2!!.text = word.meanings.toString()
-            tvAntonym!!.text = word.meanings.toString()
+            tvMeaning!!.text = word.meanings[0].definitions[0].definition
+            tvPhonetic!!.text = word.phonetics[0].text
+            tvPartOfSpeech!!.text = word.meanings[0].partOfSpeech
+            tvExample!!.text = "Example: " + word.meanings[0].definitions[0].example
             heart.setOnCheckedChangeListener { _, isChecked ->
                 word.isFavorite = isChecked
                 if (isChecked) {
