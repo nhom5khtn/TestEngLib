@@ -13,6 +13,15 @@
         android:orientation="vertical"
         android:layout_centerInParent="true">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create a new account"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textColor="@color/black">
+
+        </TextView>
         <EditText
             android:id="@+id/edt_username_signup"
             android:layout_width="match_parent"
