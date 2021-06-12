@@ -40,7 +40,7 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log in"
+            android:text="Sign in"
             android:layout_marginTop="25dp"
             android:background="@color/teal_700"
             app:backgroundTint="@color/teal_700">
