@@ -28,9 +28,11 @@ object DatabaseAPI {
         database.child(pathUserPool).get().addOnSuccessListener { dataSnapshot ->
             Log.i("getData", "Got value ${dataSnapshot.value}")
             if(dataSnapshot.value != null) {
-                Account.userpool = dataSnapshot.value.toString()
-                val list = ParseWordList.from(Account.userpool)
-                list.forEach {loadWord(it)}
+                if (!Account.userpool.contains(dataSnapshot.value.toString())) {
+                    Account.userpool = dataSnapshot.value.toString()
+                    val list = ParseWordList.from(Account.userpool)
+                    list.forEach { loadWord(it) }
+                }
             }
         }.addOnFailureListener{
             Account.userpool = ""

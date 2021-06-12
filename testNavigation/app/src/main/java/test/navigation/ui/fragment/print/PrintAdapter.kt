@@ -40,7 +40,7 @@ class PrintAdapter :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvWord: TextView? = itemView.findViewById(R.id.tv_word_key)
+        private val tvWord: TextView? = itemView.findViewById(R.id.tv_word_view)
         private val tvMeaning: TextView? = itemView.findViewById(R.id.tv_meaning)
         private val tvPhonetic: TextView? = itemView.findViewById(R.id.tv_phonetic)
         private val tvPartOfSpeech: TextView? = itemView.findViewById(R.id.tv_part_of_speech_print)

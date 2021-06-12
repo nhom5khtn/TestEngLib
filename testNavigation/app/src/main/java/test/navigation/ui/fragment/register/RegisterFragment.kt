@@ -44,7 +44,7 @@ class RegisterFragment : Fragment() {
             }
             binding.progressBarRegister.visibility = View.GONE
             btnRegister.setOnClickListener {
-                if (edtInputNewWord.text.isNotEmpty()) {
+                if (edtInputNewWord.text.isNotEmpty() && valid) {
                     edtInputNewWord.error = null
                     registerViewModel.registerResponse.value?.let { wordResp ->
                         Log.e("add into userpool", wordResp.word)
@@ -52,9 +52,18 @@ class RegisterFragment : Fragment() {
                         if (!check) {
                             val dialog = AlertDialog.Builder(requireContext()).create()
                             dialog.setMessage("This word is exist in your pool")
-                            dialog.setTitle("Dupplicate error")
+                            dialog.setTitle("Duplicate error")
                             dialog.setButton(
                                 Dialog.BUTTON_POSITIVE, "OK"
+                            ) { dialogErr, _ -> dialogErr.dismiss() }
+                            dialog.show()
+                        }
+                        else {
+                            val dialog = AlertDialog.Builder(requireContext()).create()
+                            dialog.setMessage("Your word has been added to Pool!")
+                            dialog.setTitle("Success")
+                            dialog.setButton(
+                                    Dialog.BUTTON_POSITIVE, "OK"
                             ) { dialogErr, _ -> dialogErr.dismiss() }
                             dialog.show()
                         }
