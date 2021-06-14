@@ -9,3 +9,11 @@ class Question (
     val optionFour: String,
     val correctAnswer: Int
 )
+
+class YNQuestion(
+        val id: Int,
+        val question: String,
+        val optionOne: String,
+        val optionTwo: String,
+        val correctAnswer: Int
+)

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -32,10 +33,14 @@ class QuestionFragment : Fragment() {
     private var numQuest: Int = 0
     private var waitTime: Int = 0
 
+    private var mediaPlayer: MediaPlayer? = null
+
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
+        startSound()
         setupViewModel(inflater, container)
         return binding.root
     }
@@ -99,6 +104,7 @@ class QuestionFragment : Fragment() {
                     else -> {
                         Account.CORRECT_ANSWERS = mCorrectAnswers
                         Account.TOTAL_QUESTIONS = mQuestionsList!!.size
+                        stopSound()
                         findNavController().navigate(R.id.action_questionFragment_to_resultFragment)
                     }
                 }
@@ -214,5 +220,19 @@ class QuestionFragment : Fragment() {
 
     private fun setupViewModel(inflater: LayoutInflater, container: ViewGroup?) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_question, container, false)
+    }
+
+    // AudioManagerInput methods
+
+    private fun startSound() {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer()
+            mediaPlayer = MediaPlayer.create(context, R.raw.reaching_the_sky)
+        }
+        mediaPlayer?.start()
+    }
+
+    private fun stopSound() {
+        mediaPlayer?.stop()
     }
 }

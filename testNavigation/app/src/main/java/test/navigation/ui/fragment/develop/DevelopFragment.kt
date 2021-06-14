@@ -32,5 +32,6 @@ class DevelopFragment : Fragment() {
         super.onResume()
         Log.e("loadResult Before", "Got numQuest ${Account.RESULT[0]["numQuest"]?.toInt()}")
         Log.e("loadResult Before", "Got numCorrect ${Account.RESULT[0]["numCorrect"]?.toInt()}")
+        Log.e("loadResult Before", "Got countTest ${Account.RESULT.size}")
     }
 }
