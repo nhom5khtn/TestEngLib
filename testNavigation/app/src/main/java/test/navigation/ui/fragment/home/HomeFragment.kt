@@ -119,7 +119,7 @@ class HomeFragment : Fragment() {
         )
         menu.add(
                 0, 2, 2, menuIconWithText(
-                ContextCompat.getDrawable(requireActivity(), R.drawable.icon_signout)!!,
+                ContextCompat.getDrawable(requireActivity(), R.drawable.icon_test_again)!!,
                 "Test again"
         )
         )

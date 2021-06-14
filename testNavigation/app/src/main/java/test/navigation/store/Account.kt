@@ -1,7 +1,7 @@
 package test.navigation.store
 
 import test.navigation.model.dict.Word
-import test.navigation.model.question.CreateQuestion
+import test.navigation.ui.utils.CreateQuestion
 import test.navigation.model.question.Question
 
 object Account {

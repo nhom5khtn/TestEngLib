@@ -22,6 +22,7 @@ import test.navigation.R
 import test.navigation.databinding.FragmentQuestionBinding
 import test.navigation.model.question.Question
 import test.navigation.store.Account
+import test.navigation.ui.utils.PlayAudioManager
 
 class QuestionFragment : Fragment() {
 
@@ -40,7 +41,7 @@ class QuestionFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        startSound()
+        PlayAudioManager.playAudioFromRaw(context, "background")
         setupViewModel(inflater, container)
         return binding.root
     }
@@ -104,7 +105,7 @@ class QuestionFragment : Fragment() {
                     else -> {
                         Account.CORRECT_ANSWERS = mCorrectAnswers
                         Account.TOTAL_QUESTIONS = mQuestionsList!!.size
-                        stopSound()
+                        PlayAudioManager.stopAudio()
                         findNavController().navigate(R.id.action_questionFragment_to_resultFragment)
                     }
                 }
@@ -222,17 +223,4 @@ class QuestionFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_question, container, false)
     }
 
-    // AudioManagerInput methods
-
-    private fun startSound() {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer()
-            mediaPlayer = MediaPlayer.create(context, R.raw.reaching_the_sky)
-        }
-        mediaPlayer?.start()
-    }
-
-    private fun stopSound() {
-        mediaPlayer?.stop()
-    }
 }

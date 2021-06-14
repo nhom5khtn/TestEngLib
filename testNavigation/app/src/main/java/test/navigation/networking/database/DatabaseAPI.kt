@@ -7,6 +7,7 @@ import com.google.firebase.ktx.Firebase
 import test.navigation.model.dict.*
 import test.navigation.store.Account
 import test.navigation.store.Account.countList
+import test.navigation.ui.utils.ParseStringToList
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -35,7 +36,7 @@ object DatabaseAPI {
             if(dataSnapshot.value != null) {
                 if (!Account.userpool.contains(dataSnapshot.value.toString())) {
                     Account.userpool = dataSnapshot.value.toString()
-                    val list = ParseWordList.from(Account.userpool)
+                    val list = ParseStringToList.from(Account.userpool)
                     list.forEach { loadWord(it) }
                 }
             }
@@ -87,7 +88,7 @@ object DatabaseAPI {
 
 
     fun loadResult(){
-        ParseWordList.from(countList).forEach { currentDateTime ->
+        ParseStringToList.from(countList).forEach { currentDateTime ->
             database.child(pathResultQA).child(currentDateTime).get().addOnSuccessListener { dataSnapshot ->
                 if(dataSnapshot.value != null) {
                     Account.RESULT.add(hashMapOf(

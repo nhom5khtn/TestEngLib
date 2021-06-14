@@ -36,11 +36,11 @@ class DefAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             val index = findIndex(pos)
             val definition = meanings!![index[0]].definitions[index[1]].definition
-            val example = meanings!![index[0]].definitions[index[1]].example
+            val example = "Example: '" + meanings!![index[0]].definitions[index[1]].example + "'"
             val synonyms =  meanings!![index[0]].definitions[index[1]].synonyms
             mDefinition.text = definition
             mExample.text = example
-            mSynonyms.text = synonyms.toString()
+            mSynonyms.text = if (synonyms.toString() != "[]") synonyms.toString() + "\n" else ""
             Log.e("bindViewDefinition ", "[$pos,$definition]")
             Log.e("index ", "[${index[0]},${index[1]}]")
         }

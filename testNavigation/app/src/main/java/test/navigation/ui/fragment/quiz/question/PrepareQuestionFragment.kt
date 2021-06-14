@@ -2,18 +2,14 @@ package test.navigation.ui.fragment.quiz.question
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_prepare_question.*
 import test.navigation.R
-import test.navigation.model.dict.ParseWordList
 import test.navigation.store.Account
 
 

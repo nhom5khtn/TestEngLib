@@ -1,11 +1,12 @@
-package test.navigation.model.question
+package test.navigation.ui.utils
 
-import test.navigation.model.dict.ParseWordList
 import test.navigation.model.dict.Word
+import test.navigation.model.question.Question
+import test.navigation.model.question.YNQuestion
 import test.navigation.store.Account
 
 object CreateQuestion {
-    fun multipleChoiceQuestionsFrom(word: Word): Question{
+    fun multipleChoiceQuestionsFrom(word: Word): Question {
         val options = getOptionsForMC(word)
         val correctAnswer = options.indexOf(word.word) + 1
         return Question(0,
@@ -16,7 +17,7 @@ object CreateQuestion {
                 options[3],
                 correctAnswer)
     }
-    fun yesNoQuestionsfrom(word: Word): YNQuestion{
+    fun yesNoQuestionsfrom(word: Word): YNQuestion {
         val options = getOptionsForMC(word)
         val correctAnswer = options.indexOf(word.word) + 1
         return YNQuestion(0,
@@ -62,7 +63,7 @@ object CreateQuestion {
         return options
     }
     private fun createListReference(word: Word): ArrayList<String>{
-        var ref = ParseWordList.from(Account.REF_WORD_LIST) as ArrayList
+        var ref = ParseStringToList.from(Account.REF_WORD_LIST) as ArrayList
         for (x in word.meanings)
             for (y in x.definitions)
                 if (y.synonyms != null){

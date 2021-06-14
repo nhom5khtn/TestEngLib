@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
-                android:text="word"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/purple_700"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -39,8 +39,10 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="22dp"
-                android:text="Pronunciation"
-                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toStartOf="@+id/tv_phonetics"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,11 +53,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="178dp"
-                android:text="TextView"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_Pronunciation"
+                app:layout_constraintHorizontal_bias="0.04"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_word" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -68,7 +72,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_Pronunciation" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_phonetics" />
 
 
             <ToggleButton
@@ -84,6 +88,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.051" />
+
+            <Button
+                android:id="@+id/bt_sound"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="44dp"
+                android:background="@drawable/icon_sound"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tb_heart" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

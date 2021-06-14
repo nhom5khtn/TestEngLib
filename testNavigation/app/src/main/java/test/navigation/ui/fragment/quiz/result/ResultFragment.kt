@@ -13,10 +13,10 @@ import kotlinx.android.synthetic.main.fragment_result.*
 import test.navigation.R
 import test.navigation.networking.database.DatabaseAPI
 import test.navigation.store.Account
+import test.navigation.ui.utils.PlayAudioManager
 
 class ResultFragment : Fragment() {
 
-    private var mediaPlayer: MediaPlayer? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,16 +29,16 @@ class ResultFragment : Fragment() {
         tv_score.text = "Your score is ${Account.CORRECT_ANSWERS} out of ${Account.TOTAL_QUESTIONS}"
 
         if(Account.CORRECT_ANSWERS < Account.TOTAL_QUESTIONS/2 || Account.CORRECT_ANSWERS == 0) {
-            startSound(true)
+            PlayAudioManager.playAudioFromRaw(context, "fail")
             iv_result.setImageResource(R.drawable.failure)
             tv_resultString.text = resources.getStringArray(R.array.string_array_result)[0]
         } else {
-            startSound(false)
+            PlayAudioManager.playAudioFromRaw(context, "congrat")
             iv_result.setImageResource(R.drawable.trophy)
             tv_resultString.text = resources.getStringArray(R.array.string_array_result)[1]
         }
         btn_finish.setOnClickListener {
-            stopSound()
+            PlayAudioManager.stopAudio()
             findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
         }
     }
@@ -47,20 +47,5 @@ class ResultFragment : Fragment() {
         super.onResume()
         Log.e("CountTest ", Account.countList)
         DatabaseAPI.storeResult(Account.TOTAL_QUESTIONS,Account.CORRECT_ANSWERS)
-    }
-
-    // AudioManagerInput methods
-
-    private fun startSound(isFail: Boolean) {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer()
-            mediaPlayer = if(isFail) MediaPlayer.create(context, R.raw.fail)
-            else MediaPlayer.create(context, R.raw.clap)
-        }
-        mediaPlayer?.start()
-    }
-
-    private fun stopSound() {
-        mediaPlayer?.stop()
     }
 }

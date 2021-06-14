@@ -1,5 +1,6 @@
 package test.navigation.ui.fragment.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,14 +15,14 @@ import test.navigation.R
 import test.navigation.databinding.FragmentDetailBinding
 import test.navigation.model.dict.Word
 import test.navigation.networking.database.DatabaseAPI
-import test.navigation.store.Account
+import test.navigation.ui.utils.PlayAudioManager
 
 class DetailFragment : Fragment() {
     lateinit var binding: FragmentDetailBinding
     private lateinit var viewModel: DetailViewModel
     private lateinit var defAdapter: DefAdapter
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        setupViewModel(inflater,container)
+        setupViewModel(inflater, container)
         return binding.root
     }
 
@@ -36,7 +37,7 @@ class DetailFragment : Fragment() {
         setupRecyclerView()
         fetchData()
     }
-    private fun setupViewModel(inflater: LayoutInflater,container: ViewGroup?){
+    private fun setupViewModel(inflater: LayoutInflater, container: ViewGroup?){
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
         binding.lifecycleOwner = this
@@ -50,10 +51,11 @@ class DetailFragment : Fragment() {
         rv_meanings.adapter = defAdapter
 
     }
+    @SuppressLint("SetTextI18n")
     private fun showDetailView(){
         binding.apply {
             tvTitleWord.text = viewModel.wordData.value!!.word
-            tvPhonetics.text = viewModel.wordData.value!!.phonetics[0].text
+            tvPhonetics.text = "Pronunciation: " +viewModel.wordData.value!!.phonetics[0].text
             tbHeart.isChecked = viewModel.wordData.value!!.isFavorite
             tbHeart.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.wordData.value!!.isFavorite = isChecked
@@ -64,6 +66,9 @@ class DetailFragment : Fragment() {
                     Log.e("heart", "not stored")
                     DatabaseAPI.unClicked(viewModel.wordData.value!!.word)
                 }
+            }
+            btSound.setOnClickListener {
+                PlayAudioManager.prepareAudioFromUrl(context, viewModel.wordData.value!!.phonetics[0].audio)
             }
         }
 
