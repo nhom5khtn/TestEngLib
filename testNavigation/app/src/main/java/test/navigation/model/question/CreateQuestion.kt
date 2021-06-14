@@ -5,7 +5,7 @@ import test.navigation.model.dict.Word
 import test.navigation.store.Account
 
 object CreateQuestion {
-    fun from(word: Word): Question{
+    fun multipleChoiceQuestionsFrom(word: Word): Question{
         val options = getOptions(word)
         val correctAnswer = options.indexOf(word.word) + 1
         return Question(0,

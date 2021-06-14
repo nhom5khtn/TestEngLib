@@ -19,14 +19,11 @@ import test.navigation.store.Account
 
 class PrepareQuestionFragment : Fragment() {
 
-    private lateinit var questionViewModel: QuestionViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        questionViewModel = ViewModelProvider(this).get(QuestionViewModel::class.java)
         return inflater.inflate(R.layout.fragment_prepare_question, container, false)
     }
 

@@ -28,7 +28,6 @@ class QuestionFragment : Fragment() {
     private var mQuestionsList: ArrayList<Question>? = null
     private var mCorrectAnswers: Int = 0
     private var mSelectedOptionPosition: Int = 0
-    lateinit var questionViewModel: QuestionViewModel
     lateinit var binding: FragmentQuestionBinding
     private var numQuest: Int = 0
     private var waitTime: Int = 0
@@ -214,9 +213,6 @@ class QuestionFragment : Fragment() {
     }
 
     private fun setupViewModel(inflater: LayoutInflater, container: ViewGroup?) {
-        questionViewModel = ViewModelProvider(this).get(QuestionViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_question, container, false)
-        binding.lifecycleOwner = this
-        binding.questionViewModelDataBinding = questionViewModel
     }
 }

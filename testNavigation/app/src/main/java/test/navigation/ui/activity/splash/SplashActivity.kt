@@ -24,6 +24,7 @@ class SplashActivity : AppCompatActivity() {
             Account.USER_ID = firebaseUser?.uid.toString()
             DatabaseAPI.getUserName()
             DatabaseAPI.getWordList()
+            DatabaseAPI.getCountList()
         }
 
         var handler = Handler()

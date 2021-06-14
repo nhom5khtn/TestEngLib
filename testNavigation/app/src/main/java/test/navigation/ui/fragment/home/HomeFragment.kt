@@ -16,6 +16,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
 import test.navigation.R
+import test.navigation.networking.database.DatabaseAPI
 import test.navigation.store.Account
 import test.navigation.ui.activity.main.MainActivity
 
@@ -42,6 +43,8 @@ class HomeFragment : Fragment() {
         setupBottomNavigationView()
         setHasOptionsMenu(true)
         setupViewPager()
+        Log.e("CountTest ", Account.countList)
+        DatabaseAPI.loadResult()
     }
     private fun setupBottomNavigationView() {
 
@@ -140,7 +143,7 @@ class HomeFragment : Fragment() {
                 // xử lý khi click vô test again
                 Log.i("Test again", " executive ")
                 FirebaseAuth.getInstance().signOut()
-                findNavController().navigate(R.id.action_homeFragment_to_welcomeFragment)
+                findNavController().navigate(R.id.action_homeFragment_to_prepareQuestionFragment)
                 return true
             }
         }

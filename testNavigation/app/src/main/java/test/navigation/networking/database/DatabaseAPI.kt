@@ -1,10 +1,14 @@
 package test.navigation.networking.database
 
 import android.util.Log
+import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import test.navigation.model.dict.*
 import test.navigation.store.Account
+import test.navigation.store.Account.countList
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 object DatabaseAPI {
     private val database = Firebase.database.reference
@@ -12,6 +16,7 @@ object DatabaseAPI {
     private var pathUsername = "$pathRoot/username"
     private var pathWordList = "$pathRoot/wordList"
     private var pathUserPool = "$pathRoot/userPool"
+    private var pathResultQA = "$pathRoot/resultQA"
 
     fun getUserName(){
         database.child(pathUsername).get().addOnSuccessListener { dataSnapshot ->
@@ -39,6 +44,7 @@ object DatabaseAPI {
             Log.e("firebase_welcome", "Error getting data", it)
         }
     }
+
     fun addUserPool(word: Word): Boolean{
         return if (Account.userpool.contains(word.word)){
             false
@@ -53,7 +59,53 @@ object DatabaseAPI {
         }
     }
 
-    fun writeNewWord(word: Word) {
+    fun getCountList(){
+        database.child(pathResultQA).child("countList").get().addOnSuccessListener { dataSnapshot ->
+            if (dataSnapshot.value != null) {
+                countList = dataSnapshot.value.toString()
+            }
+        }.addOnFailureListener{
+            countList = ""
+            Log.e("getCountTest", "Error getting data", it)
+        }
+    }
+
+    fun storeResult(numQuest: Int, numCorrect: Int){
+        val currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        val value =
+                if (countList == "") countList + currentDateTime else "$countList,$currentDateTime"
+        countList = value
+        val resultUpdate = hashMapOf(
+                "/$pathResultQA/countList"                   to value,
+                "/$pathResultQA/countTest"                   to ServerValue.increment(1),
+                "/$pathResultQA/$currentDateTime/numQuest"   to numQuest,
+                "/$pathResultQA/$currentDateTime/numCorrect" to numCorrect,
+        )
+        database.updateChildren(resultUpdate)
+        Log.e("storeResult", "store successfully")
+    }
+
+
+    fun loadResult(){
+        ParseWordList.from(countList).forEach { currentDateTime ->
+            database.child(pathResultQA).child(currentDateTime).get().addOnSuccessListener { dataSnapshot ->
+                if(dataSnapshot.value != null) {
+                    Account.RESULT.add(hashMapOf(
+                            "numQuest"          to dataSnapshot.child("numQuest").value!!.toString(),
+                            "numCorrect"        to dataSnapshot.child("numCorrect").value!!.toString(),
+                    ))
+                }
+            }.addOnFailureListener{
+                Account.RESULT.add(hashMapOf(
+                        "numQuest"          to "",
+                        "numCorrect"        to "",
+                ))
+                Log.e("loadResult", "Error getting data", it)
+            }
+        }
+    }
+
+    private fun writeNewWord(word: Word) {
         val postValues = word.toMap()
         val childUpdates = hashMapOf<String, Any>(
                 "/$pathWordList/${word.word}" to postValues

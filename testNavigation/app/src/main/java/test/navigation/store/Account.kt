@@ -11,6 +11,13 @@ object Account {
     var CORRECT_ANSWERS: Int = 0
     var wordList: ArrayList<Word>? = ArrayList()
     var userpool: String = ""
+    var RESULT = ArrayList<HashMap<String, String>>()
+    var countList: String = ""
+
+
+
+
+
     fun getQuestions(numQuestion: Int): ArrayList<Question>? {
         return if(wordList.isNullOrEmpty()) null
         else {
@@ -20,20 +27,20 @@ object Account {
             if(favList.size >= numQuestion){
                 for (i in 0 until numQuestion) {
                     val index = (0 until favList.size).random()
-                    questionsList.add(CreateQuestion.from(favList[index]))
+                    questionsList.add(CreateQuestion.multipleChoiceQuestionsFrom(favList[index]))
                     favList.removeAt(index)
                 }
             } else { // 0--->numFav--->numQuest
                 val numFav = favList.size
                 for (i in 0 until numFav) {
                     val index = (0 until favList.size).random()
-                    questionsList.add(CreateQuestion.from(favList[index]))
+                    questionsList.add(CreateQuestion.multipleChoiceQuestionsFrom(favList[index]))
                     favList.removeAt(index)
                 }
                 wordList!!.forEach { if(!it.isFavorite) favList.add(it) }
                 for (i in numFav until numQuestion) {
                     val index = (0 until favList.size).random()
-                    questionsList.add(CreateQuestion.from(favList[index]))
+                    questionsList.add(CreateQuestion.multipleChoiceQuestionsFrom(favList[index]))
                     favList.removeAt(index)
                 }
             }
