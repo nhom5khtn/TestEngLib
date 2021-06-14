@@ -59,11 +59,9 @@ class DetailFragment : Fragment() {
                 viewModel.wordData.value!!.isFavorite = isChecked
                 if (isChecked) {
                     Log.e("heart", "stored")
-                    Log.e("heart", Account.favUserPool)
                     DatabaseAPI.clicked(viewModel.wordData.value!!.word)
                 } else {
                     Log.e("heart", "not stored")
-                    Log.e("heart", Account.favUserPool)
                     DatabaseAPI.unClicked(viewModel.wordData.value!!.word)
                 }
             }

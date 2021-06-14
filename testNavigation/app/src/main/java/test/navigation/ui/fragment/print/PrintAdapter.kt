@@ -70,11 +70,9 @@ class PrintAdapter :
                 word.isFavorite = isChecked
                 if (isChecked) {
                     Log.e("heart", "stored")
-                    Log.e("heart", Account.favUserPool)
                     DatabaseAPI.clicked(word.word)
                 } else {
                     Log.e("heart", "not stored")
-                    Log.e("heart", Account.favUserPool)
                     DatabaseAPI.unClicked(word.word)
                 }
             }

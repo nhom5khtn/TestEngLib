@@ -30,6 +30,8 @@ class QuestionFragment : Fragment() {
     private var mSelectedOptionPosition: Int = 0
     lateinit var questionViewModel: QuestionViewModel
     lateinit var binding: FragmentQuestionBinding
+    private var numQuest: Int = 0
+    private var waitTime: Int = 0
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -43,35 +45,23 @@ class QuestionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //===================================================================================================
         val saveConfig = activity?.getSharedPreferences("CONFIGURATION", Context.MODE_PRIVATE)
-
         saveConfig?.edit {
             putString("DEFAULT_WAIT_TIME", "10.0F")
             putString("DEFAULT_NUM_QUEST", "30.0F")
         }
-
-        val savedWaitTime = saveConfig?.getString("WAIT_TIME", "10.0F")
-        val savedNumQuest = saveConfig?.getString("NUM_QUEST", "30.0F")
-        Log.e(">>>>> savedWaitTime", "$savedWaitTime")
-        Log.e(">>>>> savedNumQuest", "$savedNumQuest")
-        if (savedWaitTime != null) {
-            var WaitTime = saveConfig.getString("DEFAULT_WAIT_TIME", "10.0F")
-            Log.e(">>>>> savedWaitTime", "$WaitTime")
-        }
-        if (savedNumQuest != null) {
-            var NumQuest = saveConfig.getString("DEFAULT_NUM_QUEST", "30.0F")
-            Log.e(">>>>> savedNumQuest", "$NumQuest")
-        }
+        waitTime = saveConfig?.getString("WAIT_TIME", "10.0F")?.toFloat()!!.toInt()
+        numQuest = saveConfig.getString("NUM_QUEST", "30.0F")?.toFloat()!!.toInt()
+        Log.e(">>>>> savedWaitTime", "$waitTime")
+        Log.e(">>>>> savedNumQuest", "$numQuest")
         //===================================================================================================
 
         Log.i("Quest Userpool: ", Account.wordList.toString())
 
 
-        if (savedNumQuest != null) {
-            mQuestionsList = if (Account.wordList!!.size >= savedNumQuest.toFloat().toInt())
-                Account.getQuestions(savedNumQuest.toFloat().toInt())
-            else
-                Account.getQuestions(Account.wordList!!.size)
-        }
+        mQuestionsList = if (Account.wordList!!.size >= numQuest)
+            Account.getQuestions(numQuest)
+        else
+            Account.getQuestions(Account.wordList!!.size)
 
 
         progressBar.max = mQuestionsList?.size!!
@@ -81,34 +71,21 @@ class QuestionFragment : Fragment() {
             if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
                 selectedOptionView(tv_option_one, 1)
             }
-            else{
-                //do nothing
-            }
         }
         tv_option_two.setOnClickListener {
             if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
                 selectedOptionView(tv_option_two, 2)
-            }
-            else{
-                //do nothing
             }
         }
         tv_option_three.setOnClickListener {
             if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
                 selectedOptionView(tv_option_three, 3)
             }
-            else{
-                //do nothing
-            }
         }
         tv_option_four.setOnClickListener {
             if(btn_submit.text != "GO TO NEXT QUESTION" && btn_submit.text != "FINISH") {
                 selectedOptionView(tv_option_four, 4)
             }
-            else{
-                //do nothing
-            }
-
         }
 
 

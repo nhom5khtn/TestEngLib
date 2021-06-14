@@ -80,9 +80,6 @@ class PrintFragment : Fragment() {
 
     private fun fetchData() {
         binding.progressBar.visibility = View.VISIBLE
-        if (Account.favUserPool.isNotEmpty()){
-            Account.setFavorite()
-        }
         Log.e("list in printAdapter", Account.wordList.toString())
         printAdapter.submitList(Account.wordList)
         binding.progressBar.visibility = View.GONE

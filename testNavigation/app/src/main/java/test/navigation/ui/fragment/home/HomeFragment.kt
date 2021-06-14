@@ -114,7 +114,12 @@ class HomeFragment : Fragment() {
                 "Log out"
             )
         )
-
+        menu.add(
+                0, 2, 2, menuIconWithText(
+                ContextCompat.getDrawable(requireActivity(), R.drawable.icon_signout)!!,
+                "Test again"
+        )
+        )
         (activity as MainActivity).supportActionBar?.apply {
             title = "  " + Account.USER_NAME
             setDisplayShowHomeEnabled(true)
@@ -127,6 +132,13 @@ class HomeFragment : Fragment() {
             1 -> {
                 // xử lý khi click vô log out
                 Log.i("Logout", " executive ")
+                FirebaseAuth.getInstance().signOut()
+                findNavController().navigate(R.id.action_homeFragment_to_welcomeFragment)
+                return true
+            }
+            2 -> {
+                // xử lý khi click vô test again
+                Log.i("Test again", " executive ")
                 FirebaseAuth.getInstance().signOut()
                 findNavController().navigate(R.id.action_homeFragment_to_welcomeFragment)
                 return true

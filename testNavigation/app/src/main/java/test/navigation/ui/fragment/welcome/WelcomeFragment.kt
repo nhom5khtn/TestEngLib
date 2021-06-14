@@ -42,7 +42,6 @@ class WelcomeFragment : Fragment() {
         if(firebaseUser != null){
             Log.i("userID", Account.USER_ID)
             Log.i("userPool", Account.userpool)
-            Log.i("favUserPool", Account.favUserPool)
             findNavController().navigate(R.id.action_welcomeFragment_to_prepareQuestionFragment)
         }
     }

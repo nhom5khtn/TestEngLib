@@ -53,7 +53,7 @@ class PrepareQuestionFragment : Fragment() {
         btn_out.setOnClickListener {
             val builder = activity?.let { it1 -> AlertDialog.Builder(it1) }
             builder?.apply {
-                setTitle("Don't want to play!")
+                setTitle("You don't want to play?")
                 setMessage("Do you want to quit?")
                 setPositiveButton("Give Up!") { _: DialogInterface, _: Int ->
                     activity?.finish()

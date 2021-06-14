@@ -1,11 +1,13 @@
 package test.navigation.ui.fragment.setup
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -42,7 +44,7 @@ class SetupFragment: Fragment() {
         Log.i("Setup: userID", Account.USER_ID)
 
         // init shared preferences with default config keys
-        val saveConfig = this.activity?.getSharedPreferences("CONFIGURATION_"+Account.USER_ID, Context.MODE_PRIVATE)
+        val saveConfig = this.activity?.getSharedPreferences("CONFIGURATION", Context.MODE_PRIVATE)
         saveConfig?.edit {
             putString("DEFAULT_WAIT_TIME", "10.0F")
             putString("DEFAULT_NUM_QUEST", "30.0F")
@@ -91,6 +93,13 @@ class SetupFragment: Fragment() {
                     putString("WAIT_TIME", waitTime.value.toString())
                     putString("NUM_QUEST", numQuest.value.toString())
                 }
+                val dialog = AlertDialog.Builder(requireContext()).create()
+                dialog.setMessage("Save completely")
+                dialog.setTitle("Notification")
+                dialog.setButton(
+                        Dialog.BUTTON_POSITIVE, "OK"
+                ) { dialogErr, _ -> dialogErr.dismiss() }
+                dialog.show()
             }
             btnDefault.setOnClickListener {
                 val defaultWaitTime = saveConfig?.getString("DEFAULT_WAIT_TIME", "10.0F")
