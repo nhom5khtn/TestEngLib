@@ -73,4 +73,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx:20.0.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
 
+    //Chart
+    implementation 'com.github.AAChartModel:AAChartCore-Kotlin:-SNAPSHOT'
+
 }
