@@ -5,9 +5,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.PagerAdapter
 import test.navigation.ui.fragment.develop.DevelopFragment
-import test.navigation.ui.fragment.setup.SetupFragment
 import test.navigation.ui.fragment.print.PrintFragment
 import test.navigation.ui.fragment.register.RegisterFragment
+import test.navigation.ui.fragment.setup.SetupFragment
 
 class HomeViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
     private val fragmentList = listOf(RegisterFragment(), PrintFragment(), SetupFragment(), DevelopFragment())

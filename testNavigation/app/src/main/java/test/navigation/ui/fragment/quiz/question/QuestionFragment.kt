@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_question.*
 import test.navigation.R
 import test.navigation.databinding.FragmentQuestionBinding
 import test.navigation.model.question.Question
+import test.navigation.networking.database.DatabaseAPI
 import test.navigation.store.Account
 import test.navigation.ui.utils.PlayAudioManager
 
@@ -34,20 +35,20 @@ class QuestionFragment : Fragment() {
     private var numQuest: Int = 0
     private var waitTime: Int = 0
 
-    private var mediaPlayer: MediaPlayer? = null
-
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        PlayAudioManager.playAudioFromRaw(context, "background")
         setupViewModel(inflater, container)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("PrepareQuestionFragment-Result", "${Account.RESULT}")
+        Log.e("PrepareQuestionFragment-cntList", Account.countList)
+        DatabaseAPI.loadResult()
         //===================================================================================================
         val saveConfig = activity?.getSharedPreferences("CONFIGURATION", Context.MODE_PRIVATE)
         saveConfig?.edit {
@@ -118,8 +119,10 @@ class QuestionFragment : Fragment() {
                 // This is to check if the answer is wrong
 
                 if (question!!.correctAnswer != mSelectedOptionPosition) {
+                    PlayAudioManager.playAudioFromRaw(context, "wrong")
                     answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
                 } else {
+                    PlayAudioManager.playAudioFromRaw(context, "right")
                     mCorrectAnswers++
                 }
                 // This is result view

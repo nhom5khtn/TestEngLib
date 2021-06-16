@@ -28,7 +28,7 @@ object PlayAudioManager {
                 "right"     -> R.raw.correct_answer
                 "congrat"   -> R.raw.clap
                 "fail"      -> R.raw.fail
-                else        -> R.raw.reaching_the_sky // background
+                else        -> R.raw.clap
             })
         } else {
             killMediaPlayer()
@@ -38,7 +38,7 @@ object PlayAudioManager {
                         "right"     -> R.raw.correct_answer
                         "congrat"   -> R.raw.clap
                         "fail"      -> R.raw.fail
-                        else        -> R.raw.reaching_the_sky // background
+                        else        -> R.raw.clap
                     })
         }
         mediaPlayer!!.setOnCompletionListener { killMediaPlayer() }

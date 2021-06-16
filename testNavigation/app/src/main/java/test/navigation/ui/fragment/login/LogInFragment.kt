@@ -52,6 +52,7 @@ class LoginFragment : Fragment() {
                         Account.USER_ID =  FirebaseAuth.getInstance().currentUser?.uid.toString()
                         DatabaseAPI.getUserName()
                         DatabaseAPI.getWordList()
+                        DatabaseAPI.getCountList()
                         findNavController().navigate(R.id.action_loginFragment_to_prepareQuestionFragment)
                     }
                     else{

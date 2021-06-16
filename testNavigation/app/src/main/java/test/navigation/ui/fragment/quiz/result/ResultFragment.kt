@@ -26,6 +26,10 @@ class ResultFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("PrepareQuestionFragment-Result", "${Account.RESULT}")
+        Log.e("PrepareQuestionFragment-cntList", Account.countList)
+        DatabaseAPI.storeResult(Account.TOTAL_QUESTIONS,Account.CORRECT_ANSWERS)
+
         tv_score.text = "Your score is ${Account.CORRECT_ANSWERS} out of ${Account.TOTAL_QUESTIONS}"
 
         if(Account.CORRECT_ANSWERS < Account.TOTAL_QUESTIONS/2 || Account.CORRECT_ANSWERS == 0) {
@@ -46,6 +50,5 @@ class ResultFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.e("CountTest ", Account.countList)
-        DatabaseAPI.storeResult(Account.TOTAL_QUESTIONS,Account.CORRECT_ANSWERS)
     }
 }

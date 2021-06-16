@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.DiffUtil
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import test.navigation.R
 import test.navigation.networking.database.DatabaseAPI
 import test.navigation.model.dict.Word
-import test.navigation.store.Account
+import test.navigation.ui.utils.PlayAudioManager
 
 class PrintAdapter :
     ListAdapter<Word, PrintAdapter.ViewHolder>(PrintDiffUtilCallback()) {
@@ -29,14 +30,23 @@ class PrintAdapter :
         }
     }
     var listener: PreCachingLayoutManager.WordItemListener? = null
+    var favListener: PrintAdapterListener? = null
 
+    interface PrintAdapterListener {
+        fun onItemClicked(word: Word)
+    }
+
+    override fun submitList(list: List<Word>?) {
+        super.submitList(list)
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent) as ViewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, listener!!)
+        holder.bind(item, listener!!, favListener!!)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -46,6 +56,7 @@ class PrintAdapter :
         private val tvPartOfSpeech: TextView? = itemView.findViewById(R.id.tv_part_of_speech_print)
         private val tvExample: TextView? = itemView.findViewById(R.id.tv_example_print)
         private val heart = itemView.findViewById<ToggleButton>(R.id.heart)
+        private val btSound = itemView.findViewById<Button>(R.id.btn_sound_print)
 
         companion object {
             // khởi tạo layout cho item_view
@@ -56,7 +67,7 @@ class PrintAdapter :
             }
         }
         @SuppressLint("SetTextI18n")
-        fun bind(word: Word, listener: PreCachingLayoutManager.WordItemListener) {
+        fun bind(word: Word, listener: PreCachingLayoutManager.WordItemListener, favListener: PrintAdapterListener) {
             itemView.setOnClickListener {
                 listener.onItemClicked(word)
             }
@@ -66,15 +77,11 @@ class PrintAdapter :
             tvPhonetic!!.text = word.phonetics[0].text
             tvPartOfSpeech!!.text = word.meanings[0].partOfSpeech
             tvExample!!.text = "Example: '" + word.meanings[0].definitions[0].example + "'"
-            heart.setOnCheckedChangeListener { _, isChecked ->
-                word.isFavorite = isChecked
-                if (isChecked) {
-                    Log.e("heart", "stored")
-                    DatabaseAPI.clicked(word.word)
-                } else {
-                    Log.e("heart", "not stored")
-                    DatabaseAPI.unClicked(word.word)
-                }
+            heart.setOnCheckedChangeListener { _, _ ->
+                favListener.onItemClicked(word)
+            }
+            btSound.setOnClickListener {
+                PlayAudioManager.prepareAudioFromUrl(itemView.context, word.phonetics[0].audio)
             }
         }
     }

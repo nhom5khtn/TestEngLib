@@ -39,8 +39,8 @@ class DefAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val example = "Example: '" + meanings!![index[0]].definitions[index[1]].example + "'"
             val synonyms =  meanings!![index[0]].definitions[index[1]].synonyms
             mDefinition.text = definition
-            mExample.text = example
-            mSynonyms.text = if (synonyms.toString() != "[]") synonyms.toString() + "\n" else ""
+            mExample.text = if (example != "null") example else ""
+            mSynonyms.text = if (synonyms.toString() != "[]" || synonyms.toString() != "null") synonyms.toString() + "\n" else ""
             Log.e("bindViewDefinition ", "[$pos,$definition]")
             Log.e("index ", "[${index[0]},${index[1]}]")
         }

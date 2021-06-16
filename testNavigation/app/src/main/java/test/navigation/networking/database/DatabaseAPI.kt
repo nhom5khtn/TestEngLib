@@ -82,13 +82,18 @@ object DatabaseAPI {
                 "/$pathResultQA/$currentDateTime/numQuest"   to numQuest,
                 "/$pathResultQA/$currentDateTime/numCorrect" to numCorrect,
         )
+        Account.RESULT.add(hashMapOf(
+                "numQuest"          to numQuest.toString(),
+                "numCorrect"        to numCorrect.toString(),
+        ))
         database.updateChildren(resultUpdate)
         Log.e("storeResult", "store successfully")
     }
 
 
     fun loadResult(){
-        ParseStringToList.from(countList).forEach { currentDateTime ->
+        val list = ParseStringToList.from(countList)
+        list.forEach { currentDateTime ->
             database.child(pathResultQA).child(currentDateTime).get().addOnSuccessListener { dataSnapshot ->
                 if(dataSnapshot.value != null) {
                     Account.RESULT.add(hashMapOf(
@@ -104,6 +109,8 @@ object DatabaseAPI {
                 Log.e("loadResult", "Error getting data", it)
             }
         }
+        Log.e("loadResult-Result", "${Account.RESULT}")
+        Log.e("loadResult-cntList", countList)
     }
 
     private fun writeNewWord(word: Word) {
@@ -114,11 +121,17 @@ object DatabaseAPI {
         database.updateChildren(childUpdates)
     }
     fun clicked(word: String) {
+        Account.wordList?.forEach {
+            if (it.word == word) it.isFavorite = true
+        }
         val updates: MutableMap<String, Any> = HashMap()
         updates["/$pathWordList/$word/isFavorite"] = true
         database.updateChildren(updates)
     }
     fun unClicked(word: String) {
+        Account.wordList?.forEach {
+            if (it.word == word) it.isFavorite = false
+        }
         val updates: MutableMap<String, Any> = HashMap()
         updates["/$pathWordList/$word/isFavorite"] = false
         database.updateChildren(updates)

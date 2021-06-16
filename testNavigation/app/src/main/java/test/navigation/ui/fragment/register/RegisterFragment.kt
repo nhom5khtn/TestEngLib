@@ -11,10 +11,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.android.synthetic.main.fragment_print.*
 import test.navigation.R
+import test.navigation.databinding.FragmentPrintBinding
 import test.navigation.databinding.FragmentRegisterBinding
 import test.navigation.model.dict.Word
 import test.navigation.networking.database.DatabaseAPI
+import test.navigation.ui.fragment.print.PrintViewModel
 
 
 class RegisterFragment : Fragment() {
@@ -61,6 +64,7 @@ class RegisterFragment : Fragment() {
                             dialog.show()
                         }
                         else {
+                            Log.e("add into userpool - fav", wordResp.isFavorite.toString())
                             val dialog = AlertDialog.Builder(requireContext()).create()
                             dialog.setMessage("Your word has been added to Pool!")
                             dialog.setTitle("Success")

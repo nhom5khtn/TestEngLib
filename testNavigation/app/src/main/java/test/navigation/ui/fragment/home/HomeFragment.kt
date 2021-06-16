@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_print.*
 import test.navigation.R
 import test.navigation.networking.database.DatabaseAPI
 import test.navigation.store.Account
@@ -43,8 +44,8 @@ class HomeFragment : Fragment() {
         setupBottomNavigationView()
         setHasOptionsMenu(true)
         setupViewPager()
-        Log.e("CountTest ", Account.countList)
-        DatabaseAPI.loadResult()
+        Log.e("HomeFragment-Result", "${Account.RESULT}")
+        Log.e("HomeFragment-cntList", Account.countList)
     }
     private fun setupBottomNavigationView() {
 
@@ -88,6 +89,7 @@ class HomeFragment : Fragment() {
                             true
                     }
                     HomeViewPagerAdapter.PRINT_PAGE -> {
+                        rv_userpool.adapter?.notifyDataSetChanged()
                         bottom_navigation_view.menu.findItem(R.id.navigation_print).isChecked = true
                     }
                     HomeViewPagerAdapter.SETUP_PAGE -> {

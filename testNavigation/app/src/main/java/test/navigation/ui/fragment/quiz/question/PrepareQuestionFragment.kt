@@ -2,6 +2,7 @@ package test.navigation.ui.fragment.quiz.question
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_prepare_question.*
 import test.navigation.R
+import test.navigation.networking.database.DatabaseAPI
 import test.navigation.store.Account
 
 
@@ -24,7 +26,6 @@ class PrepareQuestionFragment : Fragment() {
     }
 
     override fun onStart() {
-
         super.onStart()
         progress_bar_prepare_question.visibility = View.GONE
         btn_begin.setOnClickListener {
@@ -57,5 +58,11 @@ class PrepareQuestionFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("PrepareQuestionFragment-Result", "${Account.RESULT}")
+        Log.e("PrepareQuestionFragment-cntList", Account.countList)
     }
 }
