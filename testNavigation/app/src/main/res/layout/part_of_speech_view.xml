@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:backgroundTint="@color/white"
     android:orientation="vertical">
 
     <ImageView
@@ -11,12 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/line" />
+
     <TextView
         android:id="@+id/tv_part_of_speech_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
         android:fontFamily="sans-serif-light"
+        android:gravity="left"
         android:textColor="@color/teal_700"
         android:textSize="16dp"
         android:textStyle="bold"

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:background="@color/white"
+    android:backgroundTint="@color/white"
     android:gravity="center"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/tv_Tilte"
@@ -16,9 +17,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
+        android:text="You need to play a quiz game to login app.\n Do you want to play now?"
         android:textColor="#363A43"
-        android:textSize="22sp"
-        android:text="You need to play a quiz game to login app.\n Do you want to play now?" />
+        android:textSize="22sp" />
 
 
     <ProgressBar
@@ -32,6 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btn_begin"
         android:layout_width="match_parent"
@@ -42,6 +44,7 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
+
     <Button
         android:id="@+id/btn_out"
         android:layout_width="match_parent"
